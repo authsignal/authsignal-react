@@ -7,6 +7,7 @@ import { PasskeyChallenge } from "./screens/passkey-challenge";
 import { EmailOtpIcon } from "../icons/email-otp-icon";
 import { AuthenticatorAppIcon } from "../icons/authenticator-app-icon";
 import { PasskeyIcon } from "../icons/passkey-icon";
+import { AuthenticatorAppChallenge } from "./screens/authenticator-app-challenge";
 
 /**
  * TODO:
@@ -128,6 +129,10 @@ export function AuthChallenge({
 
               {verificationMethod === VerificationMethod.EMAIL_OTP && (
                 <EmailOtpChallenge />
+              )}
+
+              {verificationMethod === VerificationMethod.AUTHENTICATOR_APP && (
+                <AuthenticatorAppChallenge />
               )}
 
               {verificationMethod && <AuthChallengeFooter />}

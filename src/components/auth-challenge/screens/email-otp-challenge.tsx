@@ -14,6 +14,7 @@ import {
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../../../ui/input-otp";
 import { useAuthsignal } from "../../../hooks/use-authsignal";
 import { Drawer } from "vaul";
+import { useAuthChallenge } from "../auth-challenge";
 
 const formSchema = z.object({
   code: z.string().min(6, { message: "Enter a valid code" }),
@@ -25,20 +26,14 @@ enum OtpInputState {
   ERROR = "ERROR",
 }
 
-type EmailOtpChallengeProps = {
-  email: string;
-  handleChallengeSuccess: () => void;
-};
-
-export function EmailOtpChallenge({
-  email,
-  handleChallengeSuccess,
-}: EmailOtpChallengeProps) {
+export function EmailOtpChallenge() {
   const [codeState, setCodeState] = React.useState<OtpInputState>(
     OtpInputState.IDLE,
   );
 
   const authsignal = useAuthsignal();
+
+  const { handleChallengeSuccess, userDetails } = useAuthChallenge();
 
   const submitButtonRef = React.useRef<HTMLButtonElement>(null);
 
@@ -97,7 +92,8 @@ export function EmailOtpChallenge({
           Confirm it&apos;s you
         </Drawer.Title>
         <p className="as-text-center as-text-sm">
-          Enter the code sent to {email} to proceed.
+          Enter the code sent to {userDetails?.email ?? "<insert-email>"} to
+          proceed.
         </p>
       </div>
       <Form {...form}>

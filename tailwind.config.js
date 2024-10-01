@@ -4,6 +4,9 @@ module.exports = {
   prefix: "as-",
   theme: {
     extend: {
+      screens: {
+        xs: "375px",
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",

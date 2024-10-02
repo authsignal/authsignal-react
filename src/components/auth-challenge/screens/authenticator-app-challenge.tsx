@@ -12,7 +12,6 @@ import {
   Form,
 } from "../../../ui/form";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../../../ui/input-otp";
-import { useAuthsignal } from "../../../hooks/use-authsignal";
 import { Drawer } from "vaul";
 import { useAuthChallenge } from "../auth-challenge";
 
@@ -31,9 +30,7 @@ export function AuthenticatorAppChallenge() {
     OtpInputState.IDLE,
   );
 
-  const authsignal = useAuthsignal();
-
-  const { handleChallengeSuccess } = useAuthChallenge();
+  const { handleChallengeSuccess, authsignal } = useAuthChallenge();
 
   const submitButtonRef = React.useRef<HTMLButtonElement>(null);
 
@@ -58,7 +55,6 @@ export function AuthenticatorAppChallenge() {
     const verifyResponse = await authsignal.totp.verify({ code });
 
     if ("error" in verifyResponse) {
-      // Handle error
       return;
     }
 

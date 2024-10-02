@@ -1,5 +1,4 @@
 import React, { useCallback } from "react";
-import { useAuthsignal } from "../../../hooks/use-authsignal";
 import { Drawer } from "vaul";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { useAuthChallenge } from "../auth-challenge";
@@ -16,9 +15,7 @@ enum State {
 export function PasskeyChallenge({ token }: PasskeyChallengeProps) {
   const [state, setState] = React.useState<State>(State.AUTHENTICATING);
 
-  const authsignal = useAuthsignal();
-
-  const { handleChallengeSuccess } = useAuthChallenge();
+  const { handleChallengeSuccess, authsignal } = useAuthChallenge();
 
   const handlePasskeyAuthentication = useCallback(async () => {
     const handleError = () => {

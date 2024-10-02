@@ -9,6 +9,7 @@ import { ChevronRightIcon } from "@radix-ui/react-icons";
 import { AuthenticatorAppIcon } from "../../icons/authenticator-app-icon";
 import { EmailOtpIcon } from "../../icons/email-otp-icon";
 import { Drawer } from "vaul";
+import { SmsOtpIcon } from "../../icons/sms-otp-icon";
 
 export function VerificationMethods() {
   return (
@@ -17,6 +18,11 @@ export function VerificationMethods() {
         Select an authentication method
       </Drawer.Title>
       <ul className="as-space-y-3">
+        <VerificationMethodItem
+          verificationMethod={VerificationMethod.PASSKEY}
+          icon={<PasskeyIcon className="as-size-8" />}
+          label="Passkey"
+        />
         <VerificationMethodItem
           verificationMethod={VerificationMethod.AUTHENTICATOR_APP}
           icon={<AuthenticatorAppIcon className="as-size-8" />}
@@ -28,9 +34,9 @@ export function VerificationMethods() {
           label="Email OTP"
         />
         <VerificationMethodItem
-          verificationMethod={VerificationMethod.PASSKEY}
-          icon={<PasskeyIcon className="as-size-8" />}
-          label="Passkey"
+          verificationMethod={VerificationMethod.SMS}
+          icon={<SmsOtpIcon className="as-size-8" />}
+          label="Text message"
         />
       </ul>
     </div>

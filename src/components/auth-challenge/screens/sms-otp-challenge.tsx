@@ -25,7 +25,7 @@ enum OtpInputState {
   ERROR = "ERROR",
 }
 
-export function EmailOtpChallenge() {
+export function SmsOtpChallenge() {
   const [codeState, setCodeState] = React.useState<OtpInputState>(
     OtpInputState.IDLE,
   );
@@ -45,7 +45,7 @@ export function EmailOtpChallenge() {
   const code = form.watch("code");
 
   React.useEffect(() => {
-    authsignal.email.challenge();
+    authsignal.sms.challenge();
   }, [authsignal]);
 
   React.useEffect(() => {
@@ -57,7 +57,7 @@ export function EmailOtpChallenge() {
   const onSubmit = form.handleSubmit(async ({ code }) => {
     setCodeState(OtpInputState.LOADING);
 
-    const verifyResponse = await authsignal.email.verify({ code });
+    const verifyResponse = await authsignal.sms.verify({ code });
 
     if ("error" in verifyResponse) {
       return;
@@ -89,8 +89,8 @@ export function EmailOtpChallenge() {
           Confirm it&apos;s you
         </Drawer.Title>
         <p className="as-text-center as-text-sm">
-          Enter the code sent to {userDetails?.email ?? "<insert-email>"} to
-          proceed.
+          Enter the code sent to{" "}
+          {userDetails?.phoneNumber ?? "<insert-phonenumber>"} to proceed.
         </p>
       </div>
       <Form {...form}>

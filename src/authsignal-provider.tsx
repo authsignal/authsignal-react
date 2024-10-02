@@ -4,8 +4,6 @@ import "./main.css";
 
 import "@fontsource-variable/inter/standard.css";
 
-import { Authsignal } from "@authsignal/browser";
-
 type AuthsignalProviderProps = {
   children: React.ReactNode;
   baseUrl?:
@@ -28,21 +26,17 @@ type AuthsignalProviderProps = {
   };
 };
 
-export const AuthsignalContext = React.createContext<Authsignal | undefined>(
-  undefined,
-);
+export const AuthsignalContext = React.createContext<
+  Pick<AuthsignalProviderProps, "baseUrl" | "tenantId"> | undefined
+>(undefined);
 
 export function AuthsignalProvider({
   children,
   tenantId,
   baseUrl,
 }: AuthsignalProviderProps) {
-  const [authsignal] = React.useState(
-    () => new Authsignal({ tenantId, baseUrl }),
-  );
-
   return (
-    <AuthsignalContext.Provider value={authsignal}>
+    <AuthsignalContext.Provider value={{ tenantId, baseUrl }}>
       {children}
     </AuthsignalContext.Provider>
   );

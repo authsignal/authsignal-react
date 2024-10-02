@@ -9,7 +9,7 @@ import packageJson from "./package.json" with { type: "json" };
 const peerDependencies = Object.keys(packageJson.peerDependencies);
 
 export default {
-  input: "src/index.ts", // Entry point of your library
+  input: "src/index.ts",
   external: peerDependencies,
   output: [
     {

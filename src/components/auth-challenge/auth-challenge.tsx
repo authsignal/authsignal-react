@@ -14,11 +14,6 @@ import { Authsignal } from "@authsignal/browser";
 import { useMediaQuery } from "../../hooks/use-media-query";
 import { Dialog, DialogContent } from "../../ui/dialog";
 
-/**
- * TODO:
- *  - desktop VerificationMethod
- */
-
 type AuthChallengeProps = {
   token: string;
   onChallengeSuccess: () => void;

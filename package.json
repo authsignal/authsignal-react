@@ -12,6 +12,7 @@
     "build": "rollup -c"
   },
   "author": "",
+  "repository": "git://github.com/authsignal/authsignal-react.git",
   "license": "MIT",
   "dependencies": {
     "@authsignal/browser": "^0.6.1",

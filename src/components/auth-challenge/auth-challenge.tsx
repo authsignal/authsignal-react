@@ -124,7 +124,7 @@ export function AuthChallenge({
     }
   }, [onCancel]);
 
-  const handleOpenChange = (open) => {
+  const handleOpenChange = (open: boolean) => {
     if (!open && onCancel) {
       handleClose();
     }

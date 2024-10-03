@@ -2,8 +2,6 @@ import React from "react";
 
 import "./main.css";
 
-import "@fontsource-variable/inter/standard.css";
-
 type AuthsignalProviderProps = {
   children: React.ReactNode;
   baseUrl?:

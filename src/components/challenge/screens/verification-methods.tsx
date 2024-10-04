@@ -1,15 +1,16 @@
-import React from "react";
-import {
-  TVerificationMethod,
-  useAuthChallenge,
-  VerificationMethod,
-} from "../auth-challenge";
-import { PasskeyIcon } from "../../icons/passkey-icon";
 import { ChevronRightIcon } from "@radix-ui/react-icons";
+import React from "react";
+import { Drawer } from "vaul";
+
 import { AuthenticatorAppIcon } from "../../icons/authenticator-app-icon";
 import { EmailOtpIcon } from "../../icons/email-otp-icon";
-import { Drawer } from "vaul";
+import { PasskeyIcon } from "../../icons/passkey-icon";
 import { SmsOtpIcon } from "../../icons/sms-otp-icon";
+import {
+  TVerificationMethod,
+  useChallengeContext,
+  VerificationMethod,
+} from "../use-challenge-context";
 
 export function VerificationMethods() {
   return (
@@ -54,7 +55,7 @@ function VerificationMethodItem({
   icon,
   label,
 }: VerificationMethodItemProps) {
-  const { setVerificationMethod, verificationMethods } = useAuthChallenge();
+  const { setVerificationMethod, verificationMethods } = useChallengeContext();
 
   const isVerificationMethodAllowed = React.useMemo(() => {
     if (!verificationMethods) {

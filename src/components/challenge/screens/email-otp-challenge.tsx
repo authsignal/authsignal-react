@@ -1,7 +1,9 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { Drawer } from "vaul";
 import { z } from "zod";
+
 import { cn } from "../../../lib/utils";
 import {
   FormField,
@@ -12,8 +14,7 @@ import {
   Form,
 } from "../../../ui/form";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../../../ui/input-otp";
-import { Drawer } from "vaul";
-import { useAuthChallenge } from "../auth-challenge";
+import { useChallengeContext } from "../use-challenge-context";
 
 const formSchema = z.object({
   code: z.string().min(6, { message: "Enter a valid code" }),
@@ -30,8 +31,7 @@ export function EmailOtpChallenge() {
     OtpInputState.IDLE,
   );
 
-  const { handleChallengeSuccess, userDetails, authsignal } =
-    useAuthChallenge();
+  const { handleChallengeSuccess, user, authsignal } = useChallengeContext();
 
   const submitButtonRef = React.useRef<HTMLButtonElement>(null);
 
@@ -89,8 +89,7 @@ export function EmailOtpChallenge() {
           Confirm it&apos;s you
         </Drawer.Title>
         <p className="as-text-center as-text-sm">
-          Enter the code sent to {userDetails?.email ?? "<insert-email>"} to
-          proceed.
+          Enter the code sent to {user?.email ?? ""} to proceed.
         </p>
       </div>
       <Form {...form}>

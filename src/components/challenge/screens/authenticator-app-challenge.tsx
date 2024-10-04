@@ -1,7 +1,9 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { Drawer } from "vaul";
 import { z } from "zod";
+
 import { cn } from "../../../lib/utils";
 import {
   FormField,
@@ -12,8 +14,7 @@ import {
   Form,
 } from "../../../ui/form";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../../../ui/input-otp";
-import { Drawer } from "vaul";
-import { useAuthChallenge } from "../auth-challenge";
+import { useChallengeContext } from "../use-challenge-context";
 
 const formSchema = z.object({
   code: z.string().min(6, { message: "Enter a valid code" }),
@@ -25,13 +26,12 @@ enum OtpInputState {
   ERROR = "ERROR",
 }
 
-export function SmsOtpChallenge() {
+export function AuthenticatorAppChallenge() {
   const [codeState, setCodeState] = React.useState<OtpInputState>(
     OtpInputState.IDLE,
   );
 
-  const { handleChallengeSuccess, userDetails, authsignal } =
-    useAuthChallenge();
+  const { handleChallengeSuccess, authsignal } = useChallengeContext();
 
   const submitButtonRef = React.useRef<HTMLButtonElement>(null);
 
@@ -45,10 +45,6 @@ export function SmsOtpChallenge() {
   const code = form.watch("code");
 
   React.useEffect(() => {
-    authsignal.sms.challenge();
-  }, [authsignal]);
-
-  React.useEffect(() => {
     if (code?.length === 6) {
       submitButtonRef.current?.click();
     }
@@ -57,7 +53,7 @@ export function SmsOtpChallenge() {
   const onSubmit = form.handleSubmit(async ({ code }) => {
     setCodeState(OtpInputState.LOADING);
 
-    const verifyResponse = await authsignal.sms.verify({ code });
+    const verifyResponse = await authsignal.totp.verify({ code });
 
     if ("error" in verifyResponse) {
       return;
@@ -89,8 +85,7 @@ export function SmsOtpChallenge() {
           Confirm it&apos;s you
         </Drawer.Title>
         <p className="as-text-center as-text-sm">
-          Enter the code sent to{" "}
-          {userDetails?.phoneNumber ?? "<insert-phonenumber>"} to proceed.
+          Enter the code from your authenticator app to proceed.
         </p>
       </div>
       <Form {...form}>

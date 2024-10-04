@@ -1,7 +1,7 @@
+import { ReloadIcon } from "@radix-ui/react-icons";
 import React, { useCallback } from "react";
 import { Drawer } from "vaul";
-import { ReloadIcon } from "@radix-ui/react-icons";
-import { useAuthChallenge } from "../auth-challenge";
+import { useChallengeContext } from "../use-challenge-context";
 
 type PasskeyChallengeProps = {
   token: string; // TODO: This should be set in the web sdk
@@ -15,7 +15,7 @@ enum State {
 export function PasskeyChallenge({ token }: PasskeyChallengeProps) {
   const [state, setState] = React.useState<State>(State.AUTHENTICATING);
 
-  const { handleChallengeSuccess, authsignal } = useAuthChallenge();
+  const { handleChallengeSuccess, authsignal } = useChallengeContext();
 
   const handlePasskeyAuthentication = useCallback(async () => {
     const handleError = () => {

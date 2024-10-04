@@ -1,81 +1,56 @@
+import { Authsignal } from "@authsignal/browser";
 import React from "react";
 import { Drawer } from "vaul";
-import { EmailOtpChallenge } from "./screens/email-otp-challenge";
-import { useAuthsignal } from "../../hooks/use-authsignal";
-import { VerificationMethods } from "./screens/verification-methods";
-import { PasskeyChallenge } from "./screens/passkey-challenge";
-import { EmailOtpIcon } from "../icons/email-otp-icon";
-import { AuthenticatorAppIcon } from "../icons/authenticator-app-icon";
-import { PasskeyIcon } from "../icons/passkey-icon";
-import { AuthenticatorAppChallenge } from "./screens/authenticator-app-challenge";
-import { SmsOtpIcon } from "../icons/sms-otp-icon";
-import { SmsOtpChallenge } from "./screens/sms-otp-challenge";
-import { Authsignal } from "@authsignal/browser";
+
+import { useAuthsignalContext } from "../../hooks/use-authsignal-context";
 import { useMediaQuery } from "../../hooks/use-media-query";
 import { Dialog, DialogContent } from "../../ui/dialog";
+import { AuthenticatorAppIcon } from "../icons/authenticator-app-icon";
+import { EmailOtpIcon } from "../icons/email-otp-icon";
+import { PasskeyIcon } from "../icons/passkey-icon";
+import { SmsOtpIcon } from "../icons/sms-otp-icon";
 
-type AuthChallengeProps = {
+import { AuthenticatorAppChallenge } from "./screens/authenticator-app-challenge";
+import { EmailOtpChallenge } from "./screens/email-otp-challenge";
+import { PasskeyChallenge } from "./screens/passkey-challenge";
+import { SmsOtpChallenge } from "./screens/sms-otp-challenge";
+import { VerificationMethods } from "./screens/verification-methods";
+import {
+  AuthChallengeContext,
+  TVerificationMethod,
+  useChallengeContext,
+  VerificationMethod,
+} from "./use-challenge-context";
+
+export type ChallengeProps = {
   token: string;
   onChallengeSuccess: () => void;
   onCancel?: () => void;
   onTokenExpired?: () => void;
   defaultVerificationMethod?: TVerificationMethod;
   verificationMethods?: TVerificationMethod[];
-  userDetails?: {
+  user?: {
     email?: string;
     phoneNumber?: string;
   };
 };
 
-export const VerificationMethod = {
-  PASSKEY: "PASSKEY",
-  EMAIL_OTP: "EMAIL_OTP",
-  AUTHENTICATOR_APP: "AUTHENTICATOR_APP",
-  SMS: "SMS",
-} as const;
-
-export type TVerificationMethod =
-  (typeof VerificationMethod)[keyof typeof VerificationMethod];
-
-type AuthChallengeState = {
-  verificationMethod?: TVerificationMethod;
-  setVerificationMethod: React.Dispatch<
-    React.SetStateAction<TVerificationMethod | undefined>
-  >;
-  handleChallengeSuccess: () => void;
-  authsignal: Authsignal;
-} & Pick<AuthChallengeProps, "userDetails" | "verificationMethods">;
-
-const AuthChallengeContext = React.createContext<
-  AuthChallengeState | undefined
->(undefined);
-
-export function useAuthChallenge() {
-  const context = React.useContext(AuthChallengeContext);
-
-  if (!context) {
-    throw new Error("useAuthChallenge must be used within a AuthChallenge");
-  }
-
-  return context;
-}
-
-export function AuthChallenge({
+export function Challenge({
   defaultVerificationMethod,
   onChallengeSuccess,
   onCancel,
   token,
-  userDetails,
+  user,
   verificationMethods,
   onTokenExpired,
-}: AuthChallengeProps) {
+}: ChallengeProps) {
   const [open, setOpen] = React.useState(false);
 
   const [verificationMethod, setVerificationMethod] = React.useState<
     TVerificationMethod | undefined
   >(defaultVerificationMethod);
 
-  const { tenantId, baseUrl } = useAuthsignal();
+  const { tenantId, baseUrl } = useAuthsignalContext();
 
   const onTokenExpiredRef = React.useRef(onTokenExpired);
 
@@ -156,7 +131,7 @@ export function AuthChallenge({
         verificationMethods,
         setVerificationMethod,
         handleChallengeSuccess,
-        userDetails,
+        user,
         authsignal,
       }}
     >
@@ -211,7 +186,7 @@ const verificationMethodConfig: Record<
 
 function AuthChallengeFooter() {
   const { verificationMethod, verificationMethods, setVerificationMethod } =
-    useAuthChallenge();
+    useChallengeContext();
 
   if (
     (verificationMethods && verificationMethods.length > 2) ||

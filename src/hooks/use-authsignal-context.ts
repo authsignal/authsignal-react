@@ -1,11 +1,14 @@
 import React from "react";
+
 import { AuthsignalContext } from "../authsignal-provider";
 
-export function useAuthsignal() {
+export function useAuthsignalContext() {
   const context = React.useContext(AuthsignalContext);
 
   if (context === undefined) {
-    throw new Error("useAuthsignal must be used within a AuthsignalProvider");
+    throw new Error(
+      "useAuthsignalContext must be used within a AuthsignalProvider",
+    );
   }
 
   return context;

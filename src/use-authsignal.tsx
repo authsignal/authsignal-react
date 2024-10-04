@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { Challenge } from "./components/challenge/challenge";
 
+const ANIMATION_DURATION = 500;
+
 type Listener<T> = (payload: T) => void;
 
 class EventEmitter<T> {
@@ -18,10 +20,6 @@ class EventEmitter<T> {
   }
 }
 
-type ChallengeProps = React.ComponentPropsWithoutRef<typeof Challenge>;
-
-const ANIMATION_DURATION = 500;
-
 class ChallengeError extends Error {
   code: "USER_CANCELLED" | "TOKEN_EXPIRED";
 
@@ -31,6 +29,8 @@ class ChallengeError extends Error {
     this.name = "ChallengeError";
   }
 }
+
+type ChallengeProps = React.ComponentPropsWithoutRef<typeof Challenge>;
 
 let memoryChallengeState: ChallengeProps | undefined;
 

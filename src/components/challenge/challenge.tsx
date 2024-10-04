@@ -24,7 +24,7 @@ import {
 
 export type ChallengeProps = {
   token: string;
-  onChallengeSuccess: () => void;
+  onChallengeSuccess: (params: { token: string }) => void;
   onCancel?: () => void;
   onTokenExpired?: () => void;
   defaultVerificationMethod?: TVerificationMethod;
@@ -80,11 +80,14 @@ export function Challenge({
     }
   }, [token, authsignal]);
 
-  const handleChallengeSuccess = React.useCallback(() => {
-    setOpen(false);
+  const handleChallengeSuccess = React.useCallback(
+    ({ token }: { token: string }) => {
+      setOpen(false);
 
-    onChallengeSuccess();
-  }, [onChallengeSuccess]);
+      onChallengeSuccess({ token });
+    },
+    [onChallengeSuccess],
+  );
 
   const handleClose = React.useCallback(() => {
     setOpen(false);

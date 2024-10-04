@@ -34,9 +34,8 @@ export function PasskeyChallenge({ token }: PasskeyChallengeProps) {
         return;
       }
 
-      // TODO: Return `isVerified` in the response?
       if (signInResponse.token) {
-        handleChallengeSuccess();
+        handleChallengeSuccess({ token: signInResponse.token });
       } else {
         setState(State.ERROR);
       }

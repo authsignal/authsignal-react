@@ -17,7 +17,7 @@ type AuthChallengeState = {
   setVerificationMethod: React.Dispatch<
     React.SetStateAction<TVerificationMethod | undefined>
   >;
-  handleChallengeSuccess: () => void;
+  handleChallengeSuccess: (params: { token: string }) => void;
   authsignal: Authsignal;
 } & Pick<ChallengeProps, "user" | "verificationMethods">;
 

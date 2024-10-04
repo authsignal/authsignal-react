@@ -39,11 +39,11 @@ export function useAuthsignal() {
 
   const startChallenge = useCallback(
     ({ onChallengeSuccess, onCancel, ...props }: ChallengeProps) => {
-      const newChallenge = {
+      const newChallenge: ChallengeProps = {
         ...props,
-        onChallengeSuccess: () => {
+        onChallengeSuccess: ({ token }) => {
           setTimeout(() => {
-            onChallengeSuccess();
+            onChallengeSuccess({ token });
 
             memoryChallengeState = undefined;
 

@@ -63,10 +63,10 @@ export function SmsOtpChallenge() {
       return;
     }
 
-    const { isVerified } = verifyResponse;
+    const { accessToken } = verifyResponse;
 
-    if (isVerified) {
-      handleChallengeSuccess();
+    if (accessToken) {
+      handleChallengeSuccess({ token: accessToken });
     } else {
       setCodeState(OtpInputState.ERROR);
 

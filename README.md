@@ -14,30 +14,31 @@ yarn add @authsignal/react
 ```
 
 ## Usage
-Wrap your application with the `AuthsignalProvider` component.
+Add the `Authsignal` component to your app. Generally, this should be placed at the root of your app.
 
 ```jsx
-import { AuthsignalProvider } from '@authsignal/react';
+import { Authsignal } from '@authsignal/react';
 
 function App() {
   return (
-    <AuthsignalProvider tenantId="<AUTHSIGNAL_TENANT_ID>" baseUrl="<AUTHSIGNAL_BASE_URL>">
+    <div>
       <Checkout />
-    </AuthsignalProvider>
+      <Authsignal tenantId="YOUR_TENANT_ID" baseUrl="YOUR_BASE_URL" />
+    </div>
   );
 }
 ```
+Import the `useAuthsignal` hook in your component.
 
-Then use the `AuthChallenge` component to start the authentication flow.
+Then pass the `challengeOptions` returned from your server to the `startChallenge` function.
 
 ```jsx
-import { AuthChallenge } from '@authsignal/react';
+import { useAuthsignal } from '@authsignal/react';
 
-function Checkout() {
-  const [authsignalToken, setAuthsignalToken] = React.useState(null);
+export function Checkout() {
+  const { startChallenge } = useAuthsignal();
 
   const handlePayment = async () => {
-    // Return the Authsignal token from your server's track action call
     const response = await fetch('/api/payment', {
       method: 'POST',
       headers: {
@@ -47,27 +48,25 @@ function Checkout() {
 
     const data = await response.json();
 
-    setAuthsignalToken(data.authsignalToken);
+    if (data.challengeOptions) {
+       startChallenge({
+        ...challengeOptions,
+          onChallengeSuccess: () => {
+            // Challenge was successful
+          },
+          onCancel: () => {
+            // User cancelled the challenge
+          },
+          onTokenExpired: () => {
+            // Token expired
+          },
+        });
+    }
   };
 
   return (
     <div>
       <button type="button" onClick={handlePayment}>Pay</button>
-
-      {authsignalToken && (
-        <AuthChallenge
-          token={authsignalToken}
-          onChallengeSuccess={() => {
-            console.log("Payment successful");
-          }}
-          onCancel={() => {
-            console.log("Payment cancelled");
-          }}
-          onTokenExpired={() => {
-            console.log("Token expired");
-          }}
-        />
-      )}
     </div>
   );
 }

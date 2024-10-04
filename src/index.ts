@@ -1,4 +1,4 @@
 import "./main.css";
 
-export { AuthsignalProvider } from "./authsignal-provider";
-export { AuthChallenge } from "./components/auth-challenge/auth-challenge";
+export { Authsignal } from "./authsignal";
+export { useAuthsignal } from "./use-authsignal";

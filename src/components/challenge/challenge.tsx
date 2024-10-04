@@ -24,7 +24,7 @@ import {
 
 export type ChallengeProps = {
   token: string;
-  onChallengeSuccess: (params: { token: string }) => void;
+  onChallengeSuccess?: (params: { token: string }) => void;
   onCancel?: () => void;
   onTokenExpired?: () => void;
   defaultVerificationMethod?: TVerificationMethod;
@@ -84,7 +84,9 @@ export function Challenge({
     ({ token }: { token: string }) => {
       setOpen(false);
 
-      onChallengeSuccess({ token });
+      if (onChallengeSuccess) {
+        onChallengeSuccess({ token });
+      }
     },
     [onChallengeSuccess],
   );

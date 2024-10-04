@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
-
 import { Challenge } from "./components/challenge/challenge";
+
+const ANIMATION_DURATION = 500;
 
 type Listener<T> = (payload: T) => void;
 
@@ -19,13 +20,28 @@ class EventEmitter<T> {
   }
 }
 
-type ChallengeProps = React.ComponentPropsWithoutRef<typeof Challenge>;
+class ChallengeError extends Error {
+  code: "USER_CANCELLED" | "TOKEN_EXPIRED";
 
-const ANIMATION_DURATION = 500;
+  constructor(code: "USER_CANCELLED" | "TOKEN_EXPIRED", message: string) {
+    super(message);
+    this.code = code;
+    this.name = "ChallengeError";
+  }
+}
+
+type ChallengeProps = React.ComponentPropsWithoutRef<typeof Challenge>;
 
 let memoryChallengeState: ChallengeProps | undefined;
 
 const challengeEmitter = new EventEmitter<ChallengeProps | undefined>();
+
+type StartChallengeOptions = ChallengeProps;
+
+type StartChallengeAsyncOptions = Omit<
+  ChallengeProps,
+  "onChallengeSuccess" | "onTokenExpired" | "onCancel"
+>;
 
 export function useAuthsignal() {
   const [challenge, setChallenge] = useState<ChallengeProps | undefined>(
@@ -37,41 +53,95 @@ export function useAuthsignal() {
     return () => unsubscribe();
   }, []);
 
-  const startChallenge = useCallback(
-    ({ onChallengeSuccess, onCancel, ...props }: ChallengeProps) => {
-      const newChallenge: ChallengeProps = {
-        ...props,
-        onChallengeSuccess: ({ token }) => {
-          setTimeout(() => {
-            onChallengeSuccess({ token });
+  const startChallenge = useCallback((options: StartChallengeOptions) => {
+    const newChallenge: ChallengeProps = {
+      ...options,
 
-            memoryChallengeState = undefined;
+      onChallengeSuccess: ({ token }) => {
+        setTimeout(() => {
+          if (options.onChallengeSuccess) {
+            options.onChallengeSuccess({ token });
+          }
 
-            challengeEmitter.emit(memoryChallengeState);
-          }, ANIMATION_DURATION);
-        },
-        onCancel: () => {
-          setTimeout(() => {
-            if (onCancel) {
-              onCancel();
-            }
+          memoryChallengeState = undefined;
+          challengeEmitter.emit(memoryChallengeState);
+        }, ANIMATION_DURATION);
+      },
 
-            memoryChallengeState = undefined;
+      onCancel: () => {
+        setTimeout(() => {
+          if (options.onCancel) {
+            options.onCancel();
+          }
 
-            challengeEmitter.emit(memoryChallengeState);
-          }, ANIMATION_DURATION);
-        },
-      };
+          memoryChallengeState = undefined;
+          challengeEmitter.emit(memoryChallengeState);
+        }, ANIMATION_DURATION);
+      },
 
-      memoryChallengeState = newChallenge;
+      onTokenExpired: () => {
+        setTimeout(() => {
+          if (options.onTokenExpired) {
+            options.onTokenExpired();
+          }
 
-      challengeEmitter.emit(memoryChallengeState);
+          memoryChallengeState = undefined;
+          challengeEmitter.emit(memoryChallengeState);
+        }, ANIMATION_DURATION);
+      },
+    };
+
+    memoryChallengeState = newChallenge;
+    challengeEmitter.emit(memoryChallengeState);
+  }, []);
+
+  const startChallengeAsync = useCallback(
+    (options: StartChallengeAsyncOptions) => {
+      return new Promise<{ token: string }>((resolve, reject) => {
+        const newChallenge: ChallengeProps = {
+          ...options,
+
+          onChallengeSuccess: ({ token }) => {
+            setTimeout(() => {
+              resolve({ token });
+
+              memoryChallengeState = undefined;
+              challengeEmitter.emit(memoryChallengeState);
+            }, ANIMATION_DURATION);
+          },
+
+          onCancel: () => {
+            setTimeout(() => {
+              reject(
+                new ChallengeError(
+                  "USER_CANCELLED",
+                  "Challenge was cancelled by the user.",
+                ),
+              );
+
+              memoryChallengeState = undefined;
+              challengeEmitter.emit(memoryChallengeState);
+            }, ANIMATION_DURATION);
+          },
+
+          onTokenExpired: () => {
+            setTimeout(() => {
+              reject(
+                new ChallengeError("TOKEN_EXPIRED", "Challenge token expired."),
+              );
+
+              memoryChallengeState = undefined;
+              challengeEmitter.emit(memoryChallengeState);
+            }, ANIMATION_DURATION);
+          },
+        };
+
+        memoryChallengeState = newChallenge;
+        challengeEmitter.emit(memoryChallengeState);
+      });
     },
     [],
   );
 
-  return {
-    challenge,
-    startChallenge,
-  };
+  return { challenge, startChallenge, startChallengeAsync };
 }

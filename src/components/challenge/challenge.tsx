@@ -143,7 +143,7 @@ export function Challenge({
       {isDesktop ? (
         <Dialog open={open} onOpenChange={handleOpenChange}>
           <DialogContent
-            className="sm:max-w-[425px] pb-10"
+            className="sm:as-max-w-[425px] as-pb-10"
             aria-describedby={undefined}
           >
             {content}

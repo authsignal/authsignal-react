@@ -20,7 +20,7 @@ class EventEmitter<T> {
   }
 }
 
-class ChallengeError extends Error {
+export class ChallengeError extends Error {
   code: "USER_CANCELLED" | "TOKEN_EXPIRED";
 
   constructor(code: "USER_CANCELLED" | "TOKEN_EXPIRED", message: string) {

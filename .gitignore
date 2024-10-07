@@ -9,3 +9,4 @@ package-lock.json
 coverage/
 *.tsbuildinfo
 .vscode
+stats.html

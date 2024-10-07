@@ -1,8 +1,6 @@
-import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Drawer } from "vaul";
-import { z } from "zod";
 
 import { cn } from "../../../lib/utils";
 import {
@@ -16,9 +14,9 @@ import {
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../../../ui/input-otp";
 import { useChallengeContext } from "../use-challenge-context";
 
-const formSchema = z.object({
-  code: z.string().min(6, { message: "Enter a valid code" }),
-});
+type FormData = {
+  code: string;
+};
 
 enum OtpInputState {
   IDLE = "IDLE",
@@ -35,8 +33,7 @@ export function SmsOtpChallenge() {
 
   const submitButtonRef = React.useRef<HTMLButtonElement>(null);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<FormData>({
     defaultValues: {
       code: "",
     },
@@ -101,6 +98,7 @@ export function SmsOtpChallenge() {
           <FormField
             control={form.control}
             name="code"
+            rules={{ required: "Enter a code" }}
             render={({ field }) => (
               <FormItem className="as-mx-auto">
                 <FormLabel className="as-sr-only">Code</FormLabel>

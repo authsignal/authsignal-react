@@ -5,6 +5,7 @@ import terser from "@rollup/plugin-terser";
 import typescript from "@rollup/plugin-typescript";
 import postcss from "rollup-plugin-postcss";
 import packageJson from "./package.json" with { type: "json" };
+import { visualizer } from "rollup-plugin-visualizer";
 
 const peerDependencies = Object.keys(packageJson.peerDependencies);
 
@@ -37,5 +38,6 @@ export default {
       inject: true,
       minimize: true,
     }),
+    visualizer(),
   ],
 };

@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES5",
+    "target": "ES2021",
     "module": "ESNext",
     "jsx": "react",
     "strict": true,
@@ -11,7 +11,7 @@
     "declaration": true,
     "declarationMap": true,
     "outDir": "./dist",
-    "lib": ["ES2016", "DOM"]
+    "lib": ["ES2022", "DOM"]
   },
   "include": ["./src/**/*"],
   "exclude": [

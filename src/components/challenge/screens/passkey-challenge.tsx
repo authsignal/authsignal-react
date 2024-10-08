@@ -61,7 +61,7 @@ export function PasskeyChallenge({ token }: PasskeyChallengeProps) {
               your passkey.
             </p>
           </div>
-          <ReloadIcon className="as-size-8 as-animate-spin as-mx-auto" />
+          <ReloadIcon className="as-mx-auto as-size-8 as-animate-spin" />
         </>
       )}
 
@@ -77,7 +77,7 @@ export function PasskeyChallenge({ token }: PasskeyChallengeProps) {
           </div>
 
           <button
-            className="as-w-full as-px-3 as-py-2 as-text-white as-bg-[#313139] as-rounded-lg as-inline-flex as-items-center as-text-sm as-justify-center"
+            className="as-inline-flex as-w-full as-items-center as-justify-center as-rounded-lg as-bg-primary as-px-3 as-py-2 as-text-sm as-text-white"
             type="button"
             onClick={handlePasskeyAuthentication}
           >

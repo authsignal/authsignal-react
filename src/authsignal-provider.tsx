@@ -1,40 +1,24 @@
 import React from "react";
 
 import "./main.css";
+import { AuthsignalProps } from "./types";
 
 type AuthsignalProviderProps = {
   children: React.ReactNode;
-  baseUrl?:
-    | "https://api.authsignal.com/v1"
-    | "https://au.api.authsignal.com/v1"
-    | "https://eu.api.authsignal.com/v1"
-    | (string & {});
-  tenantId: string;
-  appearance?: {
-    theme?: "authsignal";
-    variables?: {
-      colorPrimary?: string;
-      colorBackground?: string;
-      colorText?: string;
-      colorDanger?: string;
-      fontFamily?: string;
-      spacingUnit?: string;
-      borderRadius?: string;
-    };
-  };
-};
+} & AuthsignalProps;
 
 export const AuthsignalContext = React.createContext<
-  Pick<AuthsignalProviderProps, "baseUrl" | "tenantId"> | undefined
+  Pick<AuthsignalProps, "baseUrl" | "tenantId" | "appearance"> | undefined
 >(undefined);
 
 export function AuthsignalProvider({
   children,
   tenantId,
   baseUrl,
+  appearance,
 }: AuthsignalProviderProps) {
   return (
-    <AuthsignalContext.Provider value={{ tenantId, baseUrl }}>
+    <AuthsignalContext.Provider value={{ tenantId, baseUrl, appearance }}>
       {children}
     </AuthsignalContext.Provider>
   );

@@ -1,5 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
-import { Challenge } from "./components/challenge/challenge";
+import {
+  ChallengeProps,
+  StartChallengeAsyncOptions,
+  StartChallengeOptions,
+} from "./types";
 
 const ANIMATION_DURATION = 500;
 
@@ -20,28 +24,24 @@ class EventEmitter<T> {
   }
 }
 
-export class ChallengeError extends Error {
-  code: "USER_CANCELLED" | "TOKEN_EXPIRED";
+type ChallengeErrorCodes =
+  | "USER_CANCELLED"
+  | "TOKEN_EXPIRED"
+  | "EXISTING_CHALLENGE";
 
-  constructor(code: "USER_CANCELLED" | "TOKEN_EXPIRED", message: string) {
+export class ChallengeError extends Error {
+  code: ChallengeErrorCodes;
+
+  constructor(code: ChallengeErrorCodes, message: string) {
     super(message);
     this.code = code;
     this.name = "ChallengeError";
   }
 }
 
-type ChallengeProps = React.ComponentPropsWithoutRef<typeof Challenge>;
-
 let memoryChallengeState: ChallengeProps | undefined;
 
 const challengeEmitter = new EventEmitter<ChallengeProps | undefined>();
-
-type StartChallengeOptions = ChallengeProps;
-
-type StartChallengeAsyncOptions = Omit<
-  ChallengeProps,
-  "onChallengeSuccess" | "onTokenExpired" | "onCancel"
->;
 
 export function useAuthsignal() {
   const [challenge, setChallenge] = useState<ChallengeProps | undefined>(
@@ -53,50 +53,67 @@ export function useAuthsignal() {
     return () => unsubscribe();
   }, []);
 
-  const startChallenge = useCallback((options: StartChallengeOptions) => {
-    const newChallenge: ChallengeProps = {
-      ...options,
+  const startChallenge = useCallback(
+    (options: StartChallengeOptions) => {
+      if (challenge) {
+        throw new ChallengeError(
+          "EXISTING_CHALLENGE",
+          "An existing challenge is already in progress.",
+        );
+      }
 
-      onChallengeSuccess: ({ token }) => {
-        setTimeout(() => {
-          if (options.onChallengeSuccess) {
-            options.onChallengeSuccess({ token });
-          }
+      const newChallenge: ChallengeProps = {
+        ...options,
 
-          memoryChallengeState = undefined;
-          challengeEmitter.emit(memoryChallengeState);
-        }, ANIMATION_DURATION);
-      },
+        onChallengeSuccess: ({ token }) => {
+          setTimeout(() => {
+            if (options.onChallengeSuccess) {
+              options.onChallengeSuccess({ token });
+            }
 
-      onCancel: () => {
-        setTimeout(() => {
-          if (options.onCancel) {
-            options.onCancel();
-          }
+            memoryChallengeState = undefined;
+            challengeEmitter.emit(memoryChallengeState);
+          }, ANIMATION_DURATION);
+        },
 
-          memoryChallengeState = undefined;
-          challengeEmitter.emit(memoryChallengeState);
-        }, ANIMATION_DURATION);
-      },
+        onCancel: () => {
+          setTimeout(() => {
+            if (options.onCancel) {
+              options.onCancel();
+            }
 
-      onTokenExpired: () => {
-        setTimeout(() => {
-          if (options.onTokenExpired) {
-            options.onTokenExpired();
-          }
+            memoryChallengeState = undefined;
+            challengeEmitter.emit(memoryChallengeState);
+          }, ANIMATION_DURATION);
+        },
 
-          memoryChallengeState = undefined;
-          challengeEmitter.emit(memoryChallengeState);
-        }, ANIMATION_DURATION);
-      },
-    };
+        onTokenExpired: () => {
+          setTimeout(() => {
+            if (options.onTokenExpired) {
+              options.onTokenExpired();
+            }
 
-    memoryChallengeState = newChallenge;
-    challengeEmitter.emit(memoryChallengeState);
-  }, []);
+            memoryChallengeState = undefined;
+            challengeEmitter.emit(memoryChallengeState);
+          }, ANIMATION_DURATION);
+        },
+      };
+
+      memoryChallengeState = newChallenge;
+      challengeEmitter.emit(memoryChallengeState);
+    },
+    [challenge],
+  );
 
   const startChallengeAsync = useCallback(
     (options: StartChallengeAsyncOptions) => {
+      if (challenge) {
+        throw new ChallengeError(
+          "EXISTING_CHALLENGE",
+          "An existing challenge is already in progress.",
+        );
+      }
+
       return new Promise<{ token: string }>((resolve, reject) => {
         const newChallenge: ChallengeProps = {
           ...options,
@@ -140,7 +157,7 @@ export function useAuthsignal() {
         challengeEmitter.emit(memoryChallengeState);
       });
     },
-    [],
+    [challenge],
   );
 
   return { challenge, startChallenge, startChallengeAsync };

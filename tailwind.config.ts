@@ -1,4 +1,9 @@
 import { Config } from "tailwindcss";
+import tailwindcssAnimate from "tailwindcss-animate";
+import {
+  scopedPreflightStyles,
+  isolateInsideOfContainer,
+} from "tailwindcss-scoped-preflight";
 
 const SPACE_MULTIPLIER = [1, 1.5, 2, 3, 4, 5, 6, 7, 8, 9, 10] as const;
 
@@ -61,7 +66,17 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    tailwindcssAnimate,
+    scopedPreflightStyles({
+      isolationStrategy: isolateInsideOfContainer(".authsignal", {
+        remove: ["html", ":host", "body"],
+      }),
+    }),
+  ],
+  corePlugins: {
+    preflight: false,
+  },
 } satisfies Config;
 
 export default config;

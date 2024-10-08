@@ -17,23 +17,14 @@ import { SmsOtpChallenge } from "./screens/sms-otp-challenge";
 import { VerificationMethods } from "./screens/verification-methods";
 import {
   AuthChallengeContext,
-  TVerificationMethod,
   useChallengeContext,
-  VerificationMethod,
 } from "./use-challenge-context";
-
-export type ChallengeProps = {
-  token: string;
-  onChallengeSuccess?: (params: { token: string }) => void;
-  onCancel?: () => void;
-  onTokenExpired?: () => void;
-  defaultVerificationMethod?: TVerificationMethod;
-  verificationMethods?: TVerificationMethod[];
-  user?: {
-    email?: string;
-    phoneNumber?: string;
-  };
-};
+import {
+  ChallengeProps,
+  TVerificationMethod,
+  VerificationMethod,
+} from "../../types";
+import { createTheme } from "../../lib/create-theme";
 
 export function Challenge({
   defaultVerificationMethod,
@@ -46,11 +37,13 @@ export function Challenge({
 }: ChallengeProps) {
   const [open, setOpen] = React.useState(false);
 
+  const [container, setContainer] = React.useState<Element | null>(null);
+
   const [verificationMethod, setVerificationMethod] = React.useState<
     TVerificationMethod | undefined
   >(defaultVerificationMethod);
 
-  const { tenantId, baseUrl } = useAuthsignalContext();
+  const { tenantId, baseUrl, appearance } = useAuthsignalContext();
 
   const onTokenExpiredRef = React.useRef(onTokenExpired);
 
@@ -108,7 +101,7 @@ export function Challenge({
   };
 
   const content = (
-    <div className="as-text-center as-pt-8">
+    <div className="as-pt-8 as-text-center">
       {!verificationMethod && <VerificationMethods />}
 
       {verificationMethod === VerificationMethod.PASSKEY && (
@@ -129,6 +122,8 @@ export function Challenge({
     </div>
   );
 
+  const style = createTheme(appearance);
+
   return (
     <AuthChallengeContext.Provider
       value={{
@@ -143,7 +138,8 @@ export function Challenge({
       {isDesktop ? (
         <Dialog open={open} onOpenChange={handleOpenChange}>
           <DialogContent
-            className="sm:as-max-w-[425px] as-pb-10"
+            container={container}
+            className="as-pb-10 sm:as-max-w-[425px]"
             aria-describedby={undefined}
           >
             {content}
@@ -151,11 +147,11 @@ export function Challenge({
         </Dialog>
       ) : (
         <Drawer.Root open={open} onOpenChange={handleOpenChange}>
-          <Drawer.Portal>
+          <Drawer.Portal container={container}>
             <Drawer.Overlay className="as-fixed as-inset-0 as-z-50 as-bg-black/80" />
             <Drawer.Content
               aria-describedby={undefined}
-              className="as-fixed as-inset-x-0 as-bottom-0 as-z-50 as-mt-24 as-flex as-h-auto as-flex-col as-rounded-t-[10px] as-border as-bg-background as-pb-8 as-px-4"
+              className="as-fixed as-inset-x-0 as-bottom-0 as-z-50 as-mt-24 as-flex as-h-auto as-flex-col as-rounded-t-[10px] as-border as-bg-background as-px-4 as-pb-8"
             >
               <div className="as-mx-auto as-mt-4 as-h-2 as-w-[100px] as-rounded-full as-bg-muted" />
               {content}
@@ -163,6 +159,7 @@ export function Challenge({
           </Drawer.Portal>
         </Drawer.Root>
       )}
+      <div style={style} ref={setContainer} />
     </AuthChallengeContext.Provider>
   );
 }
@@ -199,7 +196,7 @@ function AuthChallengeFooter() {
   ) {
     return (
       <button
-        className="as-text-indigo-600 as-text-sm as-font-medium as-mt-6"
+        className="as-mt-6 as-text-sm as-font-medium as-text-indigo-600"
         onClick={() => setVerificationMethod(undefined)}
         type="button"
       >
@@ -217,7 +214,7 @@ function AuthChallengeFooter() {
 
     return (
       <button
-        className="as-text-indigo-600 as-text-sm as-font-medium as-mt-6 as-inline-flex as-items-center as-space-x-1"
+        className="as-mt-6 as-inline-flex as-items-center as-space-x-1 as-text-sm as-font-medium as-text-indigo-600"
         onClick={() => setVerificationMethod(otherMethod)}
         type="button"
       >

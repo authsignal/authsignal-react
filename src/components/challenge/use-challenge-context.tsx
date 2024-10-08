@@ -1,16 +1,6 @@
 import { Authsignal } from "@authsignal/browser";
 import React from "react";
-import { ChallengeProps } from "./challenge";
-
-export const VerificationMethod = {
-  PASSKEY: "PASSKEY",
-  EMAIL_OTP: "EMAIL_OTP",
-  AUTHENTICATOR_APP: "AUTHENTICATOR_APP",
-  SMS: "SMS",
-} as const;
-
-export type TVerificationMethod =
-  (typeof VerificationMethod)[keyof typeof VerificationMethod];
+import { ChallengeProps, TVerificationMethod } from "../../types";
 
 type AuthChallengeState = {
   verificationMethod?: TVerificationMethod;

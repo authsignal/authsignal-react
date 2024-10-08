@@ -9,6 +9,7 @@ import tsParser from "@typescript-eslint/parser";
 import prettier from "eslint-plugin-prettier";
 import react from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
+import tailwind from "eslint-plugin-tailwindcss";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,6 +20,7 @@ const compat = new FlatCompat({
 });
 
 export default [
+  ...tailwind.configs["flat/recommended"],
   {
     ignores: ["**/node_modules/", "**/dist/"],
   },
@@ -52,6 +54,9 @@ export default [
     settings: {
       react: {
         version: "detect",
+      },
+      tailwindcss: {
+        callees: ["cn"],
       },
     },
 

@@ -6,11 +6,8 @@ import { AuthenticatorAppIcon } from "../../icons/authenticator-app-icon";
 import { EmailOtpIcon } from "../../icons/email-otp-icon";
 import { PasskeyIcon } from "../../icons/passkey-icon";
 import { SmsOtpIcon } from "../../icons/sms-otp-icon";
-import {
-  TVerificationMethod,
-  useChallengeContext,
-  VerificationMethod,
-} from "../use-challenge-context";
+import { useChallengeContext } from "../use-challenge-context";
+import { TVerificationMethod, VerificationMethod } from "../../../types";
 
 export function VerificationMethods() {
   return (
@@ -21,22 +18,22 @@ export function VerificationMethods() {
       <ul className="as-space-y-3">
         <VerificationMethodItem
           verificationMethod={VerificationMethod.PASSKEY}
-          icon={<PasskeyIcon className="as-size-8" />}
+          icon={<PasskeyIcon className="as-size-[2rem]" />}
           label="Passkey"
         />
         <VerificationMethodItem
           verificationMethod={VerificationMethod.AUTHENTICATOR_APP}
-          icon={<AuthenticatorAppIcon className="as-size-8" />}
+          icon={<AuthenticatorAppIcon className="as-size-[2rem]" />}
           label="Authenticator app"
         />
         <VerificationMethodItem
           verificationMethod={VerificationMethod.EMAIL_OTP}
-          icon={<EmailOtpIcon className="as-size-8" />}
+          icon={<EmailOtpIcon className="as-size-[2rem]" />}
           label="Email OTP"
         />
         <VerificationMethodItem
           verificationMethod={VerificationMethod.SMS}
-          icon={<SmsOtpIcon className="as-size-8" />}
+          icon={<SmsOtpIcon className="as-size-[2rem]" />}
           label="Text message"
         />
       </ul>
@@ -72,7 +69,7 @@ function VerificationMethodItem({
   return (
     <li>
       <button
-        className="as-p-2 as-rounded as-border as-flex as-items-center as-w-full as-shadow"
+        className="as-flex as-w-full as-items-center as-rounded as-border as-p-2 as-shadow"
         onClick={() => setVerificationMethod(verificationMethod)}
         type="button"
       >
@@ -80,7 +77,7 @@ function VerificationMethodItem({
           {icon}
           <span className="as-text-sm as-font-medium">{label}</span>
         </div>
-        <ChevronRightIcon className="as-size-4 as-ml-auto" />
+        <ChevronRightIcon className="as-ml-auto as-size-4" />
       </button>
     </li>
   );

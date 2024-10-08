@@ -51,7 +51,7 @@ export function Checkout() {
     if (data.challengeOptions) {
        startChallenge({
         ...challengeOptions,
-          onChallengeSuccess: () => {
+          onChallengeSuccess: ({ token }) => {
             // Challenge was successful
           },
           onCancel: () => {
@@ -71,3 +71,54 @@ export function Checkout() {
   );
 }
 ```
+
+Alternatively, you can use the `startChallengeAsync`.
+
+```jsx
+import { useAuthsignal } from '@authsignal/react';
+
+export function Checkout() {
+  const { startChallengeAsync } = useAuthsignal();
+
+  const handlePayment = async () => {
+    setIsLoading(true);
+
+    const response = await fetch('/api/payment', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = await response.json();
+
+    if (data.challengeOptions) {
+      try {
+        const { token } = await startChallengeAsync({
+          ...challengeOptions,
+        });
+
+        // Challenge was successful
+      } catch (e) {
+        if (e instanceof ChallengeError) {
+          console.error(e);
+          if (e.code === "USER_CANCELLED") {
+            // User cancelled the challenge
+          } else if (e.code === "TOKEN_EXPIRED") {
+            // Token expired
+          }
+        }
+      }
+    }
+
+    setIsLoading(false);
+  };
+
+  return (
+    <div>
+      <button type="button" onClick={handlePayment}>Pay</button>
+    </div>
+  );
+}
+```
+

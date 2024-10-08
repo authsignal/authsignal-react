@@ -93,7 +93,7 @@ export function SmsOtpChallenge() {
         <form
           noValidate
           onSubmit={onSubmit}
-          className="as-flex as-flex-col as-space-y-3 as-w-full"
+          className="as-flex as-w-full as-flex-col as-space-y-3"
         >
           <FormField
             control={form.control}

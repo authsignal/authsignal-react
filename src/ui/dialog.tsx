@@ -29,22 +29,24 @@ DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
->(({ className, children, ...props }, ref) => (
-  <DialogPortal>
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & {
+    container: Element | null | undefined;
+  }
+>(({ className, children, container, ...props }, ref) => (
+  <DialogPortal container={container}>
     <DialogOverlay />
     <DialogPrimitive.Content
       ref={ref}
       className={cn(
-        "as-fixed as-left-[50%] as-top-[50%] as-z-50 as-grid as-w-full as-max-w-lg as-translate-x-[-50%] as-translate-y-[-50%] as-gap-4 as-border as-bg-background as-p-6 as-shadow-lg as-duration-200 data-[state=open]:as-animate-in data-[state=closed]:as-animate-out data-[state=closed]:as-fade-out-0 data-[state=open]:as-fade-in-0 data-[state=closed]:as-zoom-out-95 data-[state=open]:as-zoom-in-95 data-[state=closed]:as-slide-out-to-left-1/2 data-[state=closed]:as-slide-out-to-top-[48%] data-[state=open]:as-slide-in-from-left-1/2 data-[state=open]:as-slide-in-from-top-[48%] sm:as-rounded-lg",
+        "as-fixed as-left-1/2 as-top-1/2 as-z-50 as-grid as-w-full as-max-w-lg -as-translate-x-1/2 -as-translate-y-1/2 as-gap-4 as-border as-bg-background as-p-6 as-shadow-lg as-duration-200 data-[state=open]:as-animate-in data-[state=closed]:as-animate-out data-[state=closed]:as-fade-out-0 data-[state=open]:as-fade-in-0 data-[state=closed]:as-zoom-out-95 data-[state=open]:as-zoom-in-95 data-[state=closed]:as-slide-out-to-left-1/2 data-[state=closed]:as-slide-out-to-top-[48%] data-[state=open]:as-slide-in-from-left-1/2 data-[state=open]:as-slide-in-from-top-[48%] sm:as-rounded-lg",
         className,
       )}
       {...props}
     >
       {children}
-      <DialogPrimitive.Close className="as-absolute as-right-4 as-top-4 as-rounded-sm as-opacity-70 as-ring-offset-background as-transition-opacity hover:as-opacity-100 focus:as-outline-none focus:as-ring-2 focus:as-ring-ring focus:as-ring-offset-2 disabled:as-pointer-events-none data-[state=open]:as-bg-accent data-[state=open]:as-text-muted-foreground">
-        <Cross2Icon className="as-h-4 as-w-4" />
-        <span className="sr-only">Close</span>
+      <DialogPrimitive.Close className="as-absolute as-right-4 as-top-4 as-rounded-sm as-opacity-70 as-ring-offset-background as-transition-opacity hover:as-opacity-100 focus:as-outline-none focus:as-ring-2 focus:as-ring-ring focus:as-ring-offset-2 disabled:as-pointer-events-none data-[state=open]:as-text-foreground">
+        <Cross2Icon className="as-size-[1rem]" />
+        <span className="as-sr-only">Close</span>
       </DialogPrimitive.Close>
     </DialogPrimitive.Content>
   </DialogPortal>
@@ -100,7 +102,7 @@ const DialogDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Description
     ref={ref}
-    className={cn("as-text-sm as-text-muted-foreground", className)}
+    className={cn("as-text-sm as-text-foreground", className)}
     {...props}
   />
 ));

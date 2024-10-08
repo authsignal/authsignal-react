@@ -98,7 +98,7 @@ const FormLabel = React.forwardRef<
   return (
     <Label
       ref={ref}
-      className={cn(error && "as-text-destructive", className)}
+      className={cn(error && "as-text-danger", className)}
       htmlFor={formItemId}
       {...props}
     />
@@ -139,7 +139,7 @@ const FormDescription = React.forwardRef<
     <p
       ref={ref}
       id={formDescriptionId}
-      className={cn("as-text-[0.8rem] as-text-muted-foreground", className)}
+      className={cn("as-text-[0.8rem]", className)}
       {...props}
     />
   );
@@ -162,7 +162,7 @@ const FormMessage = React.forwardRef<
       ref={ref}
       id={formMessageId}
       className={cn(
-        "as-text-[0.8rem] as-font-medium as-text-destructive",
+        "as-text-[0.8rem] as-font-medium as-text-danger",
         className,
       )}
       {...props}

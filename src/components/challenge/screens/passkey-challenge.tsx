@@ -77,7 +77,7 @@ export function PasskeyChallenge({ token }: PasskeyChallengeProps) {
           </div>
 
           <button
-            className="as-inline-flex as-w-full as-items-center as-justify-center as-rounded-lg as-bg-primary as-px-3 as-py-2 as-text-sm as-text-white"
+            className="as-inline-flex as-w-full as-items-center as-justify-center as-rounded-lg as-bg-primary as-px-3 as-py-2 as-text-sm as-font-medium as-text-white"
             type="button"
             onClick={handlePasskeyAuthentication}
           >

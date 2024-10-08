@@ -1,6 +1,6 @@
 {
   "name": "@authsignal/react",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.mjs",
@@ -56,6 +56,7 @@
     "rollup-plugin-visualizer": "^5.12.0",
     "tailwindcss": "^3.4.13",
     "tailwindcss-animate": "^1.0.7",
+    "tailwindcss-scoped-preflight": "^3.4.5",
     "typescript": "^5.6.2"
   },
   "files": [

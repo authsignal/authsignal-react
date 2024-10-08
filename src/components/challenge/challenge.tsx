@@ -159,7 +159,7 @@ export function Challenge({
           </Drawer.Portal>
         </Drawer.Root>
       )}
-      <div style={style} ref={setContainer} />
+      <div className="authsignal" style={style} ref={setContainer} />
     </AuthChallengeContext.Provider>
   );
 }
@@ -196,7 +196,7 @@ function AuthChallengeFooter() {
   ) {
     return (
       <button
-        className="as-mt-6 as-text-sm as-font-medium as-text-indigo-600"
+        className="as-mt-6 as-text-sm as-font-medium as-text-[#5865D6]"
         onClick={() => setVerificationMethod(undefined)}
         type="button"
       >
@@ -214,7 +214,7 @@ function AuthChallengeFooter() {
 
     return (
       <button
-        className="as-mt-6 as-inline-flex as-items-center as-space-x-1 as-text-sm as-font-medium as-text-indigo-600"
+        className="as-mt-6 as-inline-flex as-items-center as-space-x-1 as-text-sm as-font-medium as-text-[#5865D6]"
         onClick={() => setVerificationMethod(otherMethod)}
         type="button"
       >

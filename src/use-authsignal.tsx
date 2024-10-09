@@ -25,7 +25,7 @@ class EventEmitter<T> {
 }
 
 type ChallengeErrorCodes =
-  | "USER_CANCELLED"
+  | "USER_CANCELED"
   | "TOKEN_EXPIRED"
   | "EXISTING_CHALLENGE";
 
@@ -131,8 +131,8 @@ export function useAuthsignal() {
             setTimeout(() => {
               reject(
                 new ChallengeError(
-                  "USER_CANCELLED",
-                  "Challenge was cancelled by the user.",
+                  "USER_CANCELED",
+                  "Challenge was canceled by the user.",
                 ),
               );
 

@@ -75,7 +75,7 @@ export function Checkout() {
 Alternatively, you can use the `startChallengeAsync` function to work with promises.
 
 ```jsx
-import { useAuthsignal } from '@authsignal/react';
+import { useAuthsignal, ChallengeError } from '@authsignal/react';
 
 export function Checkout() {
   const { startChallengeAsync } = useAuthsignal();

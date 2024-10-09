@@ -101,8 +101,7 @@ export function Checkout() {
         // Challenge was successful
       } catch (e) {
         if (e instanceof ChallengeError) {
-          console.error(e);
-          if (e.code === "USER_CANCELLED") {
+          if (e.code === "USER_CANCELED") {
             // User cancelled the challenge
           } else if (e.code === "TOKEN_EXPIRED") {
             // Token expired

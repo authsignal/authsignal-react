@@ -2,6 +2,7 @@ import { ReloadIcon } from "@radix-ui/react-icons";
 import React, { useCallback } from "react";
 import { Drawer } from "vaul";
 import { useChallengeContext } from "../use-challenge-context";
+import { DialogTitle } from "../../../ui/dialog";
 
 type PasskeyChallengeProps = {
   token: string; // TODO: This should be set in the web sdk
@@ -15,7 +16,8 @@ enum State {
 export function PasskeyChallenge({ token }: PasskeyChallengeProps) {
   const [state, setState] = React.useState<State>(State.AUTHENTICATING);
 
-  const { handleChallengeSuccess, authsignal } = useChallengeContext();
+  const { handleChallengeSuccess, authsignal, isDesktop } =
+    useChallengeContext();
 
   const handlePasskeyAuthentication = useCallback(async () => {
     const handleError = () => {
@@ -48,14 +50,16 @@ export function PasskeyChallenge({ token }: PasskeyChallengeProps) {
     handlePasskeyAuthentication();
   }, [handlePasskeyAuthentication]);
 
+  const TitleComponent = isDesktop ? DialogTitle : Drawer.Title;
+
   return (
     <div className="as-space-y-6">
       {state === State.AUTHENTICATING && (
         <>
           <div className="as-space-y-2">
-            <Drawer.Title className="as-text-xl as-font-medium">
+            <TitleComponent className="as-text-xl as-font-medium">
               Confirm it&apos;s you
-            </Drawer.Title>
+            </TitleComponent>
             <p className="as-text-sm">
               You will receive a prompt from your browser to authenticate with
               your passkey.
@@ -68,9 +72,9 @@ export function PasskeyChallenge({ token }: PasskeyChallengeProps) {
       {state === State.ERROR && (
         <>
           <div className="as-space-y-2">
-            <Drawer.Title className="as-text-xl as-font-medium">
+            <TitleComponent className="as-text-xl as-font-medium">
               Confirm it&apos;s you
-            </Drawer.Title>
+            </TitleComponent>
             <p className="as-text-sm">
               There was a problem authenticating with your passkey.
             </p>

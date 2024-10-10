@@ -2,7 +2,8 @@ import { Authsignal } from "@authsignal/browser";
 import React from "react";
 import { ChallengeProps, TVerificationMethod } from "../../types";
 
-type AuthChallengeState = {
+type ChallengeState = {
+  isDesktop: boolean;
   verificationMethod?: TVerificationMethod;
   setVerificationMethod: React.Dispatch<
     React.SetStateAction<TVerificationMethod | undefined>
@@ -11,12 +12,12 @@ type AuthChallengeState = {
   authsignal: Authsignal;
 } & Pick<ChallengeProps, "user" | "verificationMethods">;
 
-export const AuthChallengeContext = React.createContext<
-  AuthChallengeState | undefined
->(undefined);
+export const ChallengeContext = React.createContext<ChallengeState | undefined>(
+  undefined,
+);
 
 export function useChallengeContext() {
-  const context = React.useContext(AuthChallengeContext);
+  const context = React.useContext(ChallengeContext);
 
   if (!context) {
     throw new Error("useChallengeContext must be used within a AuthChallenge");

@@ -62,6 +62,13 @@ export function useAuthsignal() {
         );
       }
 
+      const previouslyFocusedElement =
+        document.activeElement as HTMLElement | null;
+
+      const returnFocus = () => {
+        previouslyFocusedElement?.focus();
+      };
+
       const newChallenge: ChallengeProps = {
         ...options,
 
@@ -84,6 +91,8 @@ export function useAuthsignal() {
 
             memoryChallengeState = undefined;
             challengeEmitter.emit(memoryChallengeState);
+
+            returnFocus();
           }, ANIMATION_DURATION);
         },
 
@@ -95,6 +104,8 @@ export function useAuthsignal() {
 
             memoryChallengeState = undefined;
             challengeEmitter.emit(memoryChallengeState);
+
+            returnFocus();
           }, ANIMATION_DURATION);
         },
       };
@@ -113,6 +124,13 @@ export function useAuthsignal() {
           "An existing challenge is already in progress.",
         );
       }
+
+      const previouslyFocusedElement =
+        document.activeElement as HTMLElement | null;
+
+      const returnFocus = () => {
+        previouslyFocusedElement?.focus();
+      };
 
       return new Promise<{ token: string }>((resolve, reject) => {
         const newChallenge: ChallengeProps = {
@@ -138,6 +156,8 @@ export function useAuthsignal() {
 
               memoryChallengeState = undefined;
               challengeEmitter.emit(memoryChallengeState);
+
+              returnFocus();
             }, ANIMATION_DURATION);
           },
 
@@ -149,6 +169,8 @@ export function useAuthsignal() {
 
               memoryChallengeState = undefined;
               challengeEmitter.emit(memoryChallengeState);
+
+              returnFocus();
             }, ANIMATION_DURATION);
           },
         };

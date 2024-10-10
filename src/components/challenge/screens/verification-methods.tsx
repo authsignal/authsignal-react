@@ -8,13 +8,18 @@ import { PasskeyIcon } from "../../icons/passkey-icon";
 import { SmsOtpIcon } from "../../icons/sms-otp-icon";
 import { useChallengeContext } from "../use-challenge-context";
 import { TVerificationMethod, VerificationMethod } from "../../../types";
+import { DialogTitle } from "../../../ui/dialog";
 
 export function VerificationMethods() {
+  const { isDesktop } = useChallengeContext();
+
+  const TitleComponent = isDesktop ? DialogTitle : Drawer.Title;
+
   return (
     <div className="as-space-y-4">
-      <Drawer.Title className="as-text-center as-text-xl as-font-medium">
+      <TitleComponent className="as-text-center as-text-xl as-font-medium">
         Select an authentication method
-      </Drawer.Title>
+      </TitleComponent>
       <ul className="as-space-y-3">
         <VerificationMethodItem
           verificationMethod={VerificationMethod.PASSKEY}

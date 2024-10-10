@@ -15,10 +15,7 @@ import { EmailOtpChallenge } from "./screens/email-otp-challenge";
 import { PasskeyChallenge } from "./screens/passkey-challenge";
 import { SmsOtpChallenge } from "./screens/sms-otp-challenge";
 import { VerificationMethods } from "./screens/verification-methods";
-import {
-  AuthChallengeContext,
-  useChallengeContext,
-} from "./use-challenge-context";
+import { ChallengeContext, useChallengeContext } from "./use-challenge-context";
 import {
   ChallengeProps,
   TVerificationMethod,
@@ -84,17 +81,9 @@ export function Challenge({
     [onChallengeSuccess],
   );
 
-  const handleClose = React.useCallback(() => {
-    setOpen(false);
-
-    if (onCancel) {
-      onCancel();
-    }
-  }, [onCancel]);
-
   const handleOpenChange = (open: boolean) => {
     if (!open && onCancel) {
-      handleClose();
+      onCancel();
     }
 
     setOpen(open);
@@ -125,7 +114,7 @@ export function Challenge({
   const style = createTheme(appearance);
 
   return (
-    <AuthChallengeContext.Provider
+    <ChallengeContext.Provider
       value={{
         verificationMethod,
         verificationMethods,
@@ -133,6 +122,7 @@ export function Challenge({
         handleChallengeSuccess,
         user,
         authsignal,
+        isDesktop,
       }}
     >
       {isDesktop ? (
@@ -160,7 +150,7 @@ export function Challenge({
         </Drawer.Root>
       )}
       <div className="authsignal" style={style} ref={setContainer} />
-    </AuthChallengeContext.Provider>
+    </ChallengeContext.Provider>
   );
 }
 

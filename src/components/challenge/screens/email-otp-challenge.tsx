@@ -13,6 +13,7 @@ import {
 } from "../../../ui/form";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../../../ui/input-otp";
 import { useChallengeContext } from "../use-challenge-context";
+import { DialogTitle } from "../../../ui/dialog";
 
 type FormData = {
   code: string;
@@ -29,7 +30,8 @@ export function EmailOtpChallenge() {
     OtpInputState.IDLE,
   );
 
-  const { handleChallengeSuccess, user, authsignal } = useChallengeContext();
+  const { handleChallengeSuccess, user, authsignal, isDesktop } =
+    useChallengeContext();
 
   const submitButtonRef = React.useRef<HTMLButtonElement>(null);
 
@@ -79,12 +81,14 @@ export function EmailOtpChallenge() {
     }
   });
 
+  const TitleComponent = isDesktop ? DialogTitle : Drawer.Title;
+
   return (
     <div className="as-flex as-flex-col as-space-y-6">
       <div className="as-space-y-2">
-        <Drawer.Title className="as-text-center as-text-xl as-font-medium">
+        <TitleComponent className="as-text-center as-text-xl as-font-medium">
           Confirm it&apos;s you
-        </Drawer.Title>
+        </TitleComponent>
         <p className="as-text-center as-text-sm">
           Enter the code sent to {user?.email ?? ""} to proceed.
         </p>

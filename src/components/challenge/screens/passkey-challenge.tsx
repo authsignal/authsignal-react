@@ -57,31 +57,31 @@ export function PasskeyChallenge({ token }: PasskeyChallengeProps) {
       {state === State.AUTHENTICATING && (
         <>
           <div className="as-space-y-2">
-            <TitleComponent className="as-text-xl as-font-medium">
+            <TitleComponent className="as-text-xl as-font-medium as-text-foreground">
               Confirm it&apos;s you
             </TitleComponent>
-            <p className="as-text-sm">
+            <p className="as-text-sm as-text-foreground">
               You will receive a prompt from your browser to authenticate with
               your passkey.
             </p>
           </div>
-          <ReloadIcon className="as-mx-auto as-size-8 as-animate-spin" />
+          <ReloadIcon className="as-mx-auto as-size-8 as-animate-spin as-text-foreground" />
         </>
       )}
 
       {state === State.ERROR && (
         <>
           <div className="as-space-y-2">
-            <TitleComponent className="as-text-xl as-font-medium">
+            <TitleComponent className="as-text-xl as-font-medium as-text-foreground">
               Confirm it&apos;s you
             </TitleComponent>
-            <p className="as-text-sm">
+            <p className="as-text-sm as-text-foreground">
               There was a problem authenticating with your passkey.
             </p>
           </div>
 
           <button
-            className="as-inline-flex as-w-full as-items-center as-justify-center as-rounded-lg as-bg-primary as-px-3 as-py-2 as-text-sm as-font-medium as-text-white"
+            className="as-inline-flex as-w-full as-items-center as-justify-center as-rounded-lg as-bg-primary as-px-3 as-py-2 as-text-sm as-font-medium as-text-primary-foreground"
             type="button"
             onClick={handlePasskeyAuthentication}
           >

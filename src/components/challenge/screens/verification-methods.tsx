@@ -17,7 +17,7 @@ export function VerificationMethods() {
 
   return (
     <div className="as-space-y-4">
-      <TitleComponent className="as-text-center as-text-xl as-font-medium">
+      <TitleComponent className="as-text-center as-text-xl as-font-medium as-text-foreground">
         Select an authentication method
       </TitleComponent>
       <ul className="as-space-y-3">
@@ -74,13 +74,13 @@ function VerificationMethodItem({
   return (
     <li>
       <button
-        className="as-flex as-w-full as-items-center as-rounded as-border as-p-2 as-shadow"
+        className="as-flex as-w-full as-items-center as-rounded as-border as-p-2 as-text-foreground as-shadow"
         onClick={() => setVerificationMethod(verificationMethod)}
         type="button"
       >
         <div className="as-flex as-items-center as-space-x-2">
           {icon}
-          <span className="as-text-sm as-font-medium">{label}</span>
+          <span className="as-text-sm as-font-medium ">{label}</span>
         </div>
         <ChevronRightIcon className="as-ml-auto as-size-4" />
       </button>

@@ -86,10 +86,10 @@ export function SmsOtpChallenge() {
   return (
     <div className="as-flex as-flex-col as-space-y-6">
       <div className="as-space-y-2">
-        <TitleComponent className="as-text-center as-text-xl as-font-medium">
+        <TitleComponent className="as-text-center as-text-xl as-font-medium as-text-foreground">
           Confirm it&apos;s you
         </TitleComponent>
-        <p className="as-text-center as-text-sm">
+        <p className="as-text-center as-text-sm as-text-foreground">
           Enter the code sent to {user?.phoneNumber ?? ""} to proceed.
         </p>
       </div>

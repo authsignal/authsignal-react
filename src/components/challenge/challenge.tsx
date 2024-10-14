@@ -141,7 +141,7 @@ export function Challenge({
             <Drawer.Overlay className="as-fixed as-inset-0 as-z-50 as-bg-black/80" />
             <Drawer.Content
               aria-describedby={undefined}
-              className="as-fixed as-inset-x-0 as-bottom-0 as-z-50 as-mt-24 as-flex as-h-auto as-flex-col as-rounded-t-[10px] as-border as-bg-background as-px-4 as-pb-8"
+              className="as-fixed as-inset-x-0 as-bottom-0 as-z-50 as-mt-24 as-flex as-h-auto as-flex-col as-rounded-t-[10px] as-bg-background as-px-4 as-pb-8"
             >
               <div className="as-mx-auto as-mt-4 as-h-2 as-w-[100px] as-rounded-full as-bg-muted" />
               {content}

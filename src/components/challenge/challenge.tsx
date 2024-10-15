@@ -24,12 +24,15 @@ import {
 import { createTheme } from "../../lib/create-theme";
 
 export function Challenge({
-  defaultVerificationMethod,
   onChallengeSuccess,
   onCancel,
-  token,
-  user,
-  verificationMethods,
+  challengeOptions: {
+    token,
+    user,
+    verificationMethods,
+    defaultVerificationMethod,
+  },
+
   onTokenExpired,
 }: ChallengeProps) {
   const [open, setOpen] = React.useState(false);

@@ -37,11 +37,8 @@ export const VerificationMethod = {
 export type TVerificationMethod =
   (typeof VerificationMethod)[keyof typeof VerificationMethod];
 
-export type ChallengeProps = {
+export type ChallengeOptions = {
   token: string;
-  onChallengeSuccess?: (params: { token: string }) => void;
-  onCancel?: () => void;
-  onTokenExpired?: () => void;
   defaultVerificationMethod?: TVerificationMethod;
   verificationMethods?: TVerificationMethod[];
   user?: {
@@ -50,9 +47,13 @@ export type ChallengeProps = {
   };
 };
 
+export type ChallengeProps = {
+  challengeOptions: ChallengeOptions;
+  onChallengeSuccess?: (params: { token: string }) => void;
+  onCancel?: () => void;
+  onTokenExpired?: () => void;
+};
+
 export type StartChallengeOptions = ChallengeProps;
 
-export type StartChallengeAsyncOptions = Omit<
-  ChallengeProps,
-  "onChallengeSuccess" | "onTokenExpired" | "onCancel"
->;
+export type StartChallengeAsyncOptions = { challengeOptions: ChallengeOptions };

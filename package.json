@@ -1,6 +1,6 @@
 {
   "name": "@authsignal/react",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "",
   "keywords": [
     "authsignal",
@@ -33,6 +33,7 @@
     "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-icons": "^1.3.0",
     "@radix-ui/react-label": "^2.1.0",
+    "clsx": "^2.1.1",
     "input-otp": "^1.2.4",
     "react-hook-form": "^7.53.0",
     "tailwind-merge": "^2.5.2",

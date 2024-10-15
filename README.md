@@ -1,4 +1,8 @@
-🚧 Work in progress: Not intended for production use. 🚧 
+# Authsignal React SDK
+
+React components for [Authsignal](https://authsignal.com).
+
+[Documentation](https://docs.authsignal.com/sdks/client/react)
 
 ## Installation
 Add `@authsignal/react` to your `package.json` dependencies.
@@ -50,7 +54,7 @@ export function Checkout() {
 
     if (data.challengeOptions) {
        startChallenge({
-        ...challengeOptions,
+          challengeOptions: data.challengeOptions,
           onChallengeSuccess: ({ token }) => {
             // Challenge was successful
           },
@@ -81,7 +85,6 @@ export function Checkout() {
   const { startChallengeAsync } = useAuthsignal();
 
   const handlePayment = async () => {
-    setIsLoading(true);
 
     const response = await fetch('/api/payment', {
       method: 'POST',
@@ -95,7 +98,7 @@ export function Checkout() {
     if (data.challengeOptions) {
       try {
         const { token } = await startChallengeAsync({
-          ...challengeOptions,
+          challengeOptions: data.challengeOptions,
         });
 
         // Challenge was successful
@@ -109,8 +112,6 @@ export function Checkout() {
         }
       }
     }
-
-    setIsLoading(false);
   };
 
   return (

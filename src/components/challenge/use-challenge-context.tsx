@@ -1,16 +1,18 @@
 import { Authsignal } from "@authsignal/browser";
 import React from "react";
-import { ChallengeProps, TVerificationMethod } from "../../types";
+import { ChallengeOptions, TVerificationMethod } from "../../types";
 
 type ChallengeState = {
   isDesktop: boolean;
   verificationMethod?: TVerificationMethod;
+  verificationMethods?: ChallengeOptions["verificationMethods"];
+  user?: ChallengeOptions["user"];
   setVerificationMethod: React.Dispatch<
     React.SetStateAction<TVerificationMethod | undefined>
   >;
   handleChallengeSuccess: (params: { token: string }) => void;
   authsignal: Authsignal;
-} & Pick<ChallengeProps, "user" | "verificationMethods">;
+};
 
 export const ChallengeContext = React.createContext<ChallengeState | undefined>(
   undefined,

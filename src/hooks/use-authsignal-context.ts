@@ -1,6 +1,15 @@
 import React from "react";
+import { AuthsignalProviderProps, ChallengeProps } from "../types";
 
-import { AuthsignalContext } from "../authsignal-provider";
+export const AuthsignalContext = React.createContext<
+  | (Pick<AuthsignalProviderProps, "baseUrl" | "tenantId" | "appearance"> & {
+      challenge: ChallengeProps | undefined;
+      setChallenge: React.Dispatch<
+        React.SetStateAction<ChallengeProps | undefined>
+      >;
+    })
+  | undefined
+>(undefined);
 
 export function useAuthsignalContext() {
   const context = React.useContext(AuthsignalContext);

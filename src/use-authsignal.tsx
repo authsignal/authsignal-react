@@ -1,28 +1,13 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 import {
+  ChallengeOptions,
   ChallengeProps,
   StartChallengeAsyncOptions,
   StartChallengeOptions,
 } from "./types";
+import { useAuthsignalContext } from "./hooks/use-authsignal-context";
 
 const ANIMATION_DURATION = 500;
-
-type Listener<T> = (payload: T) => void;
-
-class EventEmitter<T> {
-  private listeners: Listener<T>[] = [];
-
-  subscribe(listener: Listener<T>): () => void {
-    this.listeners.push(listener);
-    return () => {
-      this.listeners = this.listeners.filter((l) => l !== listener);
-    };
-  }
-
-  emit(payload: T) {
-    this.listeners.forEach((listener) => listener(payload));
-  }
-}
 
 type ChallengeErrorCodes =
   | "USER_CANCELED"
@@ -39,27 +24,52 @@ export class ChallengeError extends Error {
   }
 }
 
-let memoryChallengeState: ChallengeProps | undefined;
-
-const challengeEmitter = new EventEmitter<ChallengeProps | undefined>();
+type InitResponse = {
+  challengeOptions: ChallengeOptions;
+};
 
 export function useAuthsignal() {
-  const [challenge, setChallenge] = useState<ChallengeProps | undefined>(
-    memoryChallengeState,
+  const { baseUrl, setChallenge, challenge } = useAuthsignalContext();
+
+  const getChallengeOptions = useCallback(
+    async ({ token }: { token: string }) => {
+      const initRequest = await fetch(`${baseUrl}/client/init`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({}),
+      });
+
+      if (!initRequest.ok) {
+        return;
+      }
+
+      const initResponse: InitResponse = await initRequest.json();
+
+      return initResponse.challengeOptions;
+    },
+    [baseUrl],
   );
 
-  useEffect(() => {
-    const unsubscribe = challengeEmitter.subscribe(setChallenge);
-    return () => unsubscribe();
-  }, []);
-
   const startChallenge = useCallback(
-    (options: StartChallengeOptions) => {
+    async (options: StartChallengeOptions) => {
       if (challenge) {
         throw new ChallengeError(
           "EXISTING_CHALLENGE",
           "An existing challenge is already in progress.",
         );
+      }
+
+      const challengeOptions = await getChallengeOptions({
+        token: options.token,
+      });
+
+      if (!challengeOptions) {
+        options.onTokenExpired?.();
+        return;
       }
 
       const previouslyFocusedElement =
@@ -70,7 +80,7 @@ export function useAuthsignal() {
       };
 
       const newChallenge: ChallengeProps = {
-        ...options,
+        challengeOptions,
 
         onChallengeSuccess: ({ token }) => {
           setTimeout(() => {
@@ -78,8 +88,7 @@ export function useAuthsignal() {
               options.onChallengeSuccess({ token });
             }
 
-            memoryChallengeState = undefined;
-            challengeEmitter.emit(memoryChallengeState);
+            setChallenge(undefined);
           }, ANIMATION_DURATION);
         },
 
@@ -89,8 +98,7 @@ export function useAuthsignal() {
               options.onCancel();
             }
 
-            memoryChallengeState = undefined;
-            challengeEmitter.emit(memoryChallengeState);
+            setChallenge(undefined);
 
             returnFocus();
           }, ANIMATION_DURATION);
@@ -102,27 +110,33 @@ export function useAuthsignal() {
               options.onTokenExpired();
             }
 
-            memoryChallengeState = undefined;
-            challengeEmitter.emit(memoryChallengeState);
+            setChallenge(undefined);
 
             returnFocus();
           }, ANIMATION_DURATION);
         },
       };
 
-      memoryChallengeState = newChallenge;
-      challengeEmitter.emit(memoryChallengeState);
+      setChallenge(newChallenge);
     },
-    [challenge],
+    [challenge, getChallengeOptions, setChallenge],
   );
 
   const startChallengeAsync = useCallback(
-    (options: StartChallengeAsyncOptions) => {
+    async (options: StartChallengeAsyncOptions) => {
       if (challenge) {
         throw new ChallengeError(
           "EXISTING_CHALLENGE",
           "An existing challenge is already in progress.",
         );
+      }
+
+      const challengeOptions = await getChallengeOptions({
+        token: options.token,
+      });
+
+      if (!challengeOptions) {
+        throw new ChallengeError("TOKEN_EXPIRED", "Challenge token expired.");
       }
 
       const previouslyFocusedElement =
@@ -134,14 +148,13 @@ export function useAuthsignal() {
 
       return new Promise<{ token: string }>((resolve, reject) => {
         const newChallenge: ChallengeProps = {
-          ...options,
+          challengeOptions,
 
           onChallengeSuccess: ({ token }) => {
             setTimeout(() => {
               resolve({ token });
 
-              memoryChallengeState = undefined;
-              challengeEmitter.emit(memoryChallengeState);
+              setChallenge(undefined);
             }, ANIMATION_DURATION);
           },
 
@@ -154,8 +167,7 @@ export function useAuthsignal() {
                 ),
               );
 
-              memoryChallengeState = undefined;
-              challengeEmitter.emit(memoryChallengeState);
+              setChallenge(undefined);
 
               returnFocus();
             }, ANIMATION_DURATION);
@@ -167,19 +179,17 @@ export function useAuthsignal() {
                 new ChallengeError("TOKEN_EXPIRED", "Challenge token expired."),
               );
 
-              memoryChallengeState = undefined;
-              challengeEmitter.emit(memoryChallengeState);
+              setChallenge(undefined);
 
               returnFocus();
             }, ANIMATION_DURATION);
           },
         };
 
-        memoryChallengeState = newChallenge;
-        challengeEmitter.emit(memoryChallengeState);
+        setChallenge(newChallenge);
       });
     },
-    [challenge],
+    [challenge, getChallengeOptions, setChallenge],
   );
 
   return { challenge, startChallenge, startChallengeAsync };

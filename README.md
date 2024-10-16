@@ -18,17 +18,16 @@ yarn add @authsignal/react
 ```
 
 ## Usage
-Add the `Authsignal` component to your app. Generally, this should be placed at the root of your app.
+Render the `AuthsignalProvider` component at the root of your app.
 
 ```jsx
 import { Authsignal } from '@authsignal/react';
 
 function App() {
   return (
-    <div>
+    <AuthsignalProvider tenantId="YOUR_TENANT_ID" baseUrl="YOUR_BASE_URL">
       <Checkout />
-      <Authsignal tenantId="YOUR_TENANT_ID" baseUrl="YOUR_BASE_URL" />
-    </div>
+    </AuthsignalProvider>
   );
 }
 ```
@@ -52,9 +51,9 @@ export function Checkout() {
 
     const data = await response.json();
 
-    if (data.challengeOptions) {
+    if (data.token) {
        startChallenge({
-          challengeOptions: data.challengeOptions,
+          token: data.token,
           onChallengeSuccess: ({ token }) => {
             // Challenge was successful
           },
@@ -95,10 +94,10 @@ export function Checkout() {
 
     const data = await response.json();
 
-    if (data.challengeOptions) {
+    if (data.token) {
       try {
         const { token } = await startChallengeAsync({
-          challengeOptions: data.challengeOptions,
+          token: data.token,
         });
 
         // Challenge was successful

@@ -17,7 +17,7 @@ export type Appearance = {
   variables?: AppearanceVariables;
 };
 
-export type AuthsignalProps = {
+export type AuthsignalProviderProps = {
   baseUrl?:
     | "https://api.authsignal.com/v1"
     | "https://au.api.authsignal.com/v1"
@@ -25,6 +25,7 @@ export type AuthsignalProps = {
     | (string & {});
   tenantId: string;
   appearance?: Appearance;
+  children: React.ReactNode;
 };
 
 export const VerificationMethod = {
@@ -47,13 +48,18 @@ export type ChallengeOptions = {
   };
 };
 
-export type ChallengeProps = {
-  challengeOptions: ChallengeOptions;
+type ChallengeCallbacks = {
   onChallengeSuccess?: (params: { token: string }) => void;
   onCancel?: () => void;
   onTokenExpired?: () => void;
 };
 
-export type StartChallengeOptions = ChallengeProps;
+export type ChallengeProps = {
+  challengeOptions: ChallengeOptions;
+} & ChallengeCallbacks;
 
-export type StartChallengeAsyncOptions = { challengeOptions: ChallengeOptions };
+export type StartChallengeOptions = { token: string } & ChallengeCallbacks;
+
+export type StartChallengeAsyncOptions = {
+  token: string;
+};

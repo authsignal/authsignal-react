@@ -1,5 +1,5 @@
 import "./main.css";
 
-export { Authsignal } from "./authsignal";
+export { AuthsignalProvider } from "./authsignal-provider";
 export { useAuthsignal, ChallengeError } from "./use-authsignal";
-export { Appearance, AuthsignalProps, ChallengeOptions } from "./types";
+export { Appearance, AuthsignalProviderProps } from "./types";

@@ -30,7 +30,9 @@ export type AuthsignalProviderProps = {
 
 export const VerificationMethod = {
   PASSKEY: "PASSKEY",
+  SECURITY_KEY: "SECURITY_KEY",
   EMAIL_OTP: "EMAIL_OTP",
+  EMAIL_MAGIC_LINK: "EMAIL_MAGIC_LINK",
   AUTHENTICATOR_APP: "AUTHENTICATOR_APP",
   SMS: "SMS",
 } as const;

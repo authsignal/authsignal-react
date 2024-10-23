@@ -22,6 +22,9 @@ import {
   VerificationMethod,
 } from "../../types";
 import { createTheme } from "../../lib/create-theme";
+import { EmailMagicLinkIcon } from "../icons/email-magic-link-icon";
+import { SecurityKeyIcon } from "../icons/security-key-icon";
+import { EmailMagicLinkChallenge } from "./screens/email-magic-link-challenge";
 
 export function Challenge({
   onChallengeSuccess,
@@ -42,6 +45,12 @@ export function Challenge({
   const [verificationMethod, setVerificationMethod] = React.useState<
     TVerificationMethod | undefined
   >(defaultVerificationMethod);
+
+  // Storing this in a ref so that we don't have to use it as a dependency in
+  // the useCallback for `handleChallengeSuccess`. `handleChallengeSuccess` is
+  // was getting invalidated and causing the useEffect in the `EmailMagicLinkChallenge`
+  // to run multiple times.
+  const onChallengeSuccessRef = React.useRef(onChallengeSuccess);
 
   const { tenantId, baseUrl, appearance } = useAuthsignalContext();
 
@@ -77,11 +86,11 @@ export function Challenge({
     ({ token }: { token: string }) => {
       setOpen(false);
 
-      if (onChallengeSuccess) {
-        onChallengeSuccess({ token });
+      if (onChallengeSuccessRef.current) {
+        onChallengeSuccessRef.current({ token });
       }
     },
-    [onChallengeSuccess],
+    [],
   );
 
   const handleOpenChange = (open: boolean) => {
@@ -102,6 +111,10 @@ export function Challenge({
 
       {verificationMethod === VerificationMethod.EMAIL_OTP && (
         <EmailOtpChallenge />
+      )}
+
+      {verificationMethod === VerificationMethod.EMAIL_MAGIC_LINK && (
+        <EmailMagicLinkChallenge />
       )}
 
       {verificationMethod === VerificationMethod.SMS && <SmsOtpChallenge />}
@@ -169,6 +182,10 @@ const verificationMethodConfig: Record<
     icon: <EmailOtpIcon className="as-size-6" />,
     label: "an email OTP",
   },
+  [VerificationMethod.EMAIL_MAGIC_LINK]: {
+    icon: <EmailMagicLinkIcon className="as-size-6" />,
+    label: "an email magic link",
+  },
   [VerificationMethod.AUTHENTICATOR_APP]: {
     icon: <AuthenticatorAppIcon className="as-size-6" />,
     label: "an authenticator app",
@@ -176,6 +193,10 @@ const verificationMethodConfig: Record<
   [VerificationMethod.SMS]: {
     icon: <SmsOtpIcon className="as-size-6" />,
     label: "a text message",
+  },
+  [VerificationMethod.SECURITY_KEY]: {
+    icon: <SecurityKeyIcon className="as-size-6" />,
+    label: "a security key",
   },
 };
 

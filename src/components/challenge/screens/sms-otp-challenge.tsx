@@ -58,14 +58,14 @@ export function SmsOtpChallenge() {
 
     const verifyResponse = await authsignal.sms.verify({ code });
 
-    if ("error" in verifyResponse) {
+    if (verifyResponse.error) {
       return;
     }
 
-    const { accessToken } = verifyResponse;
+    const token = verifyResponse.data?.token;
 
-    if (accessToken) {
-      handleChallengeSuccess({ token: accessToken });
+    if (token) {
+      handleChallengeSuccess({ token });
     } else {
       setCodeState(OtpInputState.ERROR);
 

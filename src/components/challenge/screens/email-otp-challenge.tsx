@@ -58,14 +58,14 @@ export function EmailOtpChallenge() {
 
     const verifyResponse = await authsignal.email.verify({ code });
 
-    if ("error" in verifyResponse) {
+    if (verifyResponse.error) {
       return;
     }
 
-    const { accessToken } = verifyResponse;
+    const token = verifyResponse.data?.token;
 
-    if (accessToken) {
-      handleChallengeSuccess({ token: accessToken });
+    if (token) {
+      handleChallengeSuccess({ token: token });
     } else {
       setCodeState(OtpInputState.ERROR);
 

@@ -9,6 +9,7 @@ import { SmsOtpIcon } from "../../icons/sms-otp-icon";
 import { useChallengeContext } from "../use-challenge-context";
 import { TVerificationMethod, VerificationMethod } from "../../../types";
 import { DialogTitle } from "../../../ui/dialog";
+import { EmailMagicLinkIcon } from "../../icons/email-magic-link-icon";
 
 export function VerificationMethods() {
   const { isDesktop } = useChallengeContext();
@@ -35,6 +36,11 @@ export function VerificationMethods() {
           verificationMethod={VerificationMethod.EMAIL_OTP}
           icon={<EmailOtpIcon className="as-size-[2rem]" />}
           label="Email OTP"
+        />
+        <VerificationMethodItem
+          verificationMethod={VerificationMethod.EMAIL_MAGIC_LINK}
+          icon={<EmailMagicLinkIcon className="as-size-[2rem]" />}
+          label="Email magic link"
         />
         <VerificationMethodItem
           verificationMethod={VerificationMethod.SMS}

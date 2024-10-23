@@ -4,6 +4,7 @@ import {
   ChallengeProps,
   StartChallengeAsyncOptions,
   StartChallengeOptions,
+  VerificationMethod,
 } from "./types";
 import { useAuthsignalContext } from "./hooks/use-authsignal-context";
 
@@ -49,7 +50,17 @@ export function useAuthsignal() {
 
       const initResponse: InitResponse = await initRequest.json();
 
-      return initResponse.challengeOptions;
+      const supportedVerificationMethods = Object.keys(VerificationMethod);
+
+      return {
+        ...initResponse.challengeOptions,
+        // Remove unsupported verification methods e.g. Veriff/iProov
+        verificationMethods:
+          initResponse.challengeOptions.verificationMethods?.filter(
+            (verificationMethod) =>
+              supportedVerificationMethods.includes(verificationMethod),
+          ),
+      };
     },
     [baseUrl],
   );

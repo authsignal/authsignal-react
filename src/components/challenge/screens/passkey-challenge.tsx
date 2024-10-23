@@ -31,13 +31,13 @@ export function PasskeyChallenge({ token }: PasskeyChallengeProps) {
         token,
       });
 
-      if ("error" in signInResponse) {
+      if (signInResponse.error) {
         handleError();
         return;
       }
 
-      if (signInResponse.token) {
-        handleChallengeSuccess({ token: signInResponse.token });
+      if (signInResponse.data?.token) {
+        handleChallengeSuccess({ token: signInResponse.data.token });
       } else {
         setState(State.ERROR);
       }

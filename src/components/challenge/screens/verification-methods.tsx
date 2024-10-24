@@ -10,6 +10,7 @@ import { useChallengeContext } from "../use-challenge-context";
 import { TVerificationMethod, VerificationMethod } from "../../../types";
 import { DialogTitle } from "../../../ui/dialog";
 import { EmailMagicLinkIcon } from "../../icons/email-magic-link-icon";
+import { SecurityKeyIcon } from "../../icons/security-key-icon";
 
 export function VerificationMethods() {
   const { isDesktop } = useChallengeContext();
@@ -26,6 +27,11 @@ export function VerificationMethods() {
           verificationMethod={VerificationMethod.PASSKEY}
           icon={<PasskeyIcon className="as-size-[2rem]" />}
           label="Passkey"
+        />
+        <VerificationMethodItem
+          verificationMethod={VerificationMethod.SECURITY_KEY}
+          icon={<SecurityKeyIcon className="as-size-[2rem]" />}
+          label="Security key"
         />
         <VerificationMethodItem
           verificationMethod={VerificationMethod.AUTHENTICATOR_APP}

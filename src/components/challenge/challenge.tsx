@@ -25,6 +25,7 @@ import { createTheme } from "../../lib/create-theme";
 import { EmailMagicLinkIcon } from "../icons/email-magic-link-icon";
 import { SecurityKeyIcon } from "../icons/security-key-icon";
 import { EmailMagicLinkChallenge } from "./screens/email-magic-link-challenge";
+import { SecurityKeyChallenge } from "./screens/security-key-challenge";
 
 export function Challenge({
   onChallengeSuccess,
@@ -107,6 +108,10 @@ export function Challenge({
 
       {verificationMethod === VerificationMethod.PASSKEY && (
         <PasskeyChallenge token={token} />
+      )}
+
+      {verificationMethod === VerificationMethod.SECURITY_KEY && (
+        <SecurityKeyChallenge />
       )}
 
       {verificationMethod === VerificationMethod.EMAIL_OTP && (

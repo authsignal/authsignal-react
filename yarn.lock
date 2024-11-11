@@ -15,14 +15,14 @@
     "@jridgewell/gen-mapping" "^0.3.5"
     "@jridgewell/trace-mapping" "^0.3.24"
 
-"@authsignal/browser@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@authsignal/browser/-/browser-1.2.0.tgz#adce2e690ea9f3b392ab00cbac62f6a97da8c6ac"
-  integrity sha512-KkWYr9dv7VajyMgfQFbDS5dF1TKcYZGTmQ48A2WtNAB1GRNRUshiUxioE+1+pW7IRGE53OKIZjdBcV3AbYJ2gw==
+"@authsignal/browser@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@authsignal/browser/-/browser-1.4.0.tgz#67eb45ee475f8c0d12f97e73dcf1f195a7e41679"
+  integrity sha512-sH95hvJ+X/TfKxjziNMuvaaAuNQj8oLHxV1CyCxuNPaJoGZHmTXsI+7qcmKJMNjlhL4uxwfrALjEAsy0B8/Oug==
   dependencies:
     "@fingerprintjs/fingerprintjs" "^3.3.6"
-    "@simplewebauthn/browser" "^10.0.0"
-    "@simplewebauthn/types" "^10.0.0"
+    "@simplewebauthn/browser" "^11.0.0"
+    "@simplewebauthn/types" "^11.0.0"
     a11y-dialog "8.0.4"
     uuid "^9.0.0"
 
@@ -759,24 +759,12 @@
   resolved "https://registry.yarnpkg.com/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.24.0.tgz#0574d7e87b44ee8511d08cc7f914bcb802b70818"
   integrity sha512-fbMkAF7fufku0N2dE5TBXcNlg0pt0cJue4xBRE2Qc5Vqikxr4VCgKj/ht6SMdFcOacVA9rqF70APJ8RN/4vMJw==
 
-"@simplewebauthn/browser@^10.0.0":
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/@simplewebauthn/browser/-/browser-10.0.0.tgz#8305a57dacb35ab6a71a8b670c699ee7ef1c11c4"
-  integrity sha512-hG0JMZD+LiLUbpQcAjS4d+t4gbprE/dLYop/CkE01ugU/9sKXflxV5s0DRjdz3uNMFecatRfb4ZLG3XvF8m5zg==
-  dependencies:
-    "@simplewebauthn/types" "^10.0.0"
-
 "@simplewebauthn/browser@^11.0.0":
   version "11.0.0"
   resolved "https://registry.yarnpkg.com/@simplewebauthn/browser/-/browser-11.0.0.tgz#270b47039b4561199bc16f25197431c8f10dbfb5"
   integrity sha512-KEGCStrl08QC2I561BzxqGiwoknblP6O1YW7jApdXLPtIqZ+vgJYAv8ssLCdm1wD8HGAHd49CJLkUF8X70x/pg==
   dependencies:
     "@simplewebauthn/types" "^11.0.0"
-
-"@simplewebauthn/types@^10.0.0":
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/@simplewebauthn/types/-/types-10.0.0.tgz#a07259d42fbdff7a014473f78401d262b298ed8e"
-  integrity sha512-SFXke7xkgPRowY2E+8djKbdEznTVnD5R6GO7GPTthpHrokLvNKw8C3lFZypTxLI7KkCfGPfhtqB3d7OVGGa9jQ==
 
 "@simplewebauthn/types@^11.0.0":
   version "11.0.0"

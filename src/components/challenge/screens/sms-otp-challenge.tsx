@@ -30,8 +30,7 @@ export function SmsOtpChallenge() {
     OtpInputState.IDLE,
   );
 
-  const { handleChallengeSuccess, user, authsignal, isDesktop } =
-    useChallengeContext();
+  const { handleSuccess, user, authsignal, isDesktop } = useChallengeContext();
 
   const submitButtonRef = React.useRef<HTMLButtonElement>(null);
 
@@ -65,7 +64,7 @@ export function SmsOtpChallenge() {
     const token = verifyResponse.data?.token;
 
     if (token) {
-      handleChallengeSuccess({ token });
+      handleSuccess({ token });
     } else {
       setCodeState(OtpInputState.ERROR);
 

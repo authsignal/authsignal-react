@@ -1,12 +1,12 @@
 import { ReloadIcon } from "@radix-ui/react-icons";
 import React, { useCallback } from "react";
 import { Drawer } from "vaul";
-import { useChallengeContext } from "../use-challenge-context";
+import { useEnrollContext } from "../use-enroll-context";
 import { DialogTitle } from "../../../ui/dialog";
 import { browserSupportsWebAuthn } from "@simplewebauthn/browser";
 import { isIframeInSafari } from "../../../lib/device";
 
-type PasskeyChallengeProps = {
+type PasskeyEnrollmentProps = {
   token: string; // TODO: This should be set in the web sdk
 };
 
@@ -16,14 +16,14 @@ enum State {
   NOT_SUPPORTED = "NOT_SUPPORTED",
 }
 
-export function PasskeyChallenge({ token }: PasskeyChallengeProps) {
+export function PasskeyEnroll({ token }: PasskeyEnrollmentProps) {
   const [state, setState] = React.useState<State | undefined>(
     isIframeInSafari() ? undefined : State.AUTHENTICATING,
   );
 
-  const { handleSuccess, authsignal, isDesktop } = useChallengeContext();
+  const { handleSuccess, authsignal, isDesktop } = useEnrollContext();
 
-  const handlePasskeyAuthentication = useCallback(async () => {
+  const handlePasskeyRegistration = useCallback(async () => {
     if (!browserSupportsWebAuthn()) {
       setState(State.NOT_SUPPORTED);
       return;
@@ -36,17 +36,17 @@ export function PasskeyChallenge({ token }: PasskeyChallengeProps) {
     setState(State.AUTHENTICATING);
 
     try {
-      const signInResponse = await authsignal.passkey.signIn({
+      const signUpResponse = await authsignal.passkey.signUp({
         token,
       });
 
-      if (signInResponse.error) {
+      if (signUpResponse.error) {
         handleError();
         return;
       }
 
-      if (signInResponse.data?.token) {
-        handleSuccess({ token: signInResponse.data.token });
+      if (signUpResponse.data?.token) {
+        handleSuccess({ token: signUpResponse.data.token });
       } else {
         setState(State.ERROR);
       }
@@ -56,8 +56,8 @@ export function PasskeyChallenge({ token }: PasskeyChallengeProps) {
   }, [authsignal.passkey, handleSuccess, token]);
 
   React.useEffect(() => {
-    handlePasskeyAuthentication();
-  }, [handlePasskeyAuthentication]);
+    handlePasskeyRegistration();
+  }, [handlePasskeyRegistration]);
 
   const TitleComponent = isDesktop ? DialogTitle : Drawer.Title;
 
@@ -68,9 +68,9 @@ export function PasskeyChallenge({ token }: PasskeyChallengeProps) {
           <button
             className="as-inline-flex as-w-full as-items-center as-justify-center as-rounded-lg as-bg-primary as-px-3 as-py-2 as-text-sm as-font-medium as-text-primary-foreground"
             type="button"
-            onClick={handlePasskeyAuthentication}
+            onClick={handlePasskeyRegistration}
           >
-            Authenticate with passkey
+            Create a passkey
           </button>
         </>
       )}
@@ -90,11 +90,10 @@ export function PasskeyChallenge({ token }: PasskeyChallengeProps) {
         <>
           <div className="as-space-y-2">
             <TitleComponent className="as-text-xl as-font-medium as-text-foreground">
-              Confirm it&apos;s you
+              Create passkey
             </TitleComponent>
             <p className="as-text-sm as-text-foreground">
-              You will receive a prompt from your browser to authenticate with
-              your passkey.
+              You will receive a prompt from your browser to create a passkey.
             </p>
           </div>
           <ReloadIcon className="as-mx-auto as-size-8 as-animate-spin as-text-foreground" />
@@ -105,17 +104,17 @@ export function PasskeyChallenge({ token }: PasskeyChallengeProps) {
         <>
           <div className="as-space-y-2">
             <TitleComponent className="as-text-xl as-font-medium as-text-foreground">
-              Confirm it&apos;s you
+              Create passkey
             </TitleComponent>
             <p className="as-text-sm as-text-foreground">
-              There was a problem authenticating with your passkey.
+              There was a problem creating your passkey.
             </p>
           </div>
 
           <button
             className="as-inline-flex as-w-full as-items-center as-justify-center as-rounded-lg as-bg-primary as-px-3 as-py-2 as-text-sm as-font-medium as-text-primary-foreground"
             type="button"
-            onClick={handlePasskeyAuthentication}
+            onClick={handlePasskeyRegistration}
           >
             Try again
           </button>

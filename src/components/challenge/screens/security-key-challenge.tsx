@@ -17,8 +17,7 @@ export function SecurityKeyChallenge() {
     isIframeInSafari() ? undefined : State.AUTHENTICATING,
   );
 
-  const { handleChallengeSuccess, authsignal, isDesktop } =
-    useChallengeContext();
+  const { handleSuccess, authsignal, isDesktop } = useChallengeContext();
 
   const handleSecurityKeyAuthentication = useCallback(async () => {
     if (!browserSupportsWebAuthn()) {
@@ -40,14 +39,14 @@ export function SecurityKeyChallenge() {
       }
 
       if (verifyResponse.data?.token) {
-        handleChallengeSuccess({ token: verifyResponse.data.token });
+        handleSuccess({ token: verifyResponse.data.token });
       } else {
         setState(State.ERROR);
       }
     } catch {
       setState(State.ERROR);
     }
-  }, [authsignal.securityKey, handleChallengeSuccess]);
+  }, [authsignal.securityKey, handleSuccess]);
 
   React.useEffect(() => {
     handleSecurityKeyAuthentication();

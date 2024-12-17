@@ -1,12 +1,17 @@
 import React from "react";
-import { AuthsignalProviderProps, ChallengeProps } from "../types";
+import { AuthsignalProviderProps, ChallengeProps, EnrollProps } from "../types";
 
 export const AuthsignalContext = React.createContext<
-  | (Pick<AuthsignalProviderProps, "baseUrl" | "tenantId" | "appearance"> & {
+  | (Pick<AuthsignalProviderProps, "tenantId" | "appearance"> & {
+      baseUrl:
+        | "https://api.authsignal.com/v1"
+        | "https://au.api.authsignal.com/v1"
+        | "https://eu.api.authsignal.com/v1"
+        | (string & {});
       challenge: ChallengeProps | undefined;
-      setChallenge: React.Dispatch<
-        React.SetStateAction<ChallengeProps | undefined>
-      >;
+      setChallenge: (state: ChallengeProps | undefined) => void;
+      enroll: EnrollProps | undefined;
+      setEnroll: (state: EnrollProps | undefined) => void;
     })
   | undefined
 >(undefined);

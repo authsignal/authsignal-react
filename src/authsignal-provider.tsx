@@ -1,8 +1,9 @@
 import React from "react";
 
 import { Challenge } from "./components/challenge/challenge";
-import { AuthsignalProviderProps, ChallengeProps } from "./types";
+import { AuthsignalProviderProps, ChallengeProps, EnrollProps } from "./types";
 import { AuthsignalContext } from "./hooks/use-authsignal-context";
+import { Enroll } from "./components/enroll/enroll";
 
 export function AuthsignalProvider({
   children,
@@ -14,12 +15,25 @@ export function AuthsignalProvider({
     undefined,
   );
 
+  const [enroll, setEnroll] = React.useState<EnrollProps | undefined>(
+    undefined,
+  );
+
   return (
     <AuthsignalContext.Provider
-      value={{ tenantId, baseUrl, appearance, setChallenge, challenge }}
+      value={{
+        tenantId,
+        baseUrl,
+        appearance,
+        setChallenge,
+        challenge,
+        setEnroll,
+        enroll,
+      }}
     >
       {children}
       {challenge && <Challenge {...challenge} />}
+      {enroll && <Enroll {...enroll} />}
     </AuthsignalContext.Provider>
   );
 }

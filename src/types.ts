@@ -51,7 +51,7 @@ export type ChallengeOptions = {
 };
 
 type ChallengeCallbacks = {
-  onChallengeSuccess?: (params: { token: string }) => void;
+  onSuccess?: (params: { token: string }) => void;
   onCancel?: () => void;
   onTokenExpired?: () => void;
 };
@@ -59,6 +59,25 @@ type ChallengeCallbacks = {
 export type ChallengeProps = {
   challengeOptions: ChallengeOptions;
 } & ChallengeCallbacks;
+
+type EnrollOptions = {
+  token: string;
+  verificationMethods?: TVerificationMethod[];
+  user?: {
+    email?: string;
+    phoneNumber?: string;
+  };
+};
+
+type EnrollCallbacks = {
+  onSuccess?: (params: { token: string }) => void;
+  onCancel?: () => void;
+  onTokenExpired?: () => void;
+};
+
+export type EnrollProps = {
+  enrollOptions: EnrollOptions;
+} & EnrollCallbacks;
 
 export type StartChallengeOptions = { token: string } & ChallengeCallbacks;
 

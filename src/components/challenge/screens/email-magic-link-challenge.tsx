@@ -5,8 +5,7 @@ import { useChallengeContext } from "../use-challenge-context";
 import { DialogTitle } from "../../../ui/dialog";
 
 export function EmailMagicLinkChallenge() {
-  const { handleChallengeSuccess, user, authsignal, isDesktop } =
-    useChallengeContext();
+  const { handleSuccess, user, authsignal, isDesktop } = useChallengeContext();
 
   React.useEffect(() => {
     console.log("EmailMagicLinkChallenge useEffect");
@@ -16,12 +15,12 @@ export function EmailMagicLinkChallenge() {
       const response = await authsignal.emailML.checkVerificationStatus();
 
       if (response.data?.token) {
-        handleChallengeSuccess({ token: response.data.token });
+        handleSuccess({ token: response.data.token });
       }
     };
 
     handleEmailMagicLinkChallenge();
-  }, [authsignal, handleChallengeSuccess]);
+  }, [authsignal, handleSuccess]);
 
   const TitleComponent = isDesktop ? DialogTitle : Drawer.Title;
 

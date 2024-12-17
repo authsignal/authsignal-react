@@ -30,8 +30,7 @@ export function AuthenticatorAppChallenge() {
     OtpInputState.IDLE,
   );
 
-  const { handleChallengeSuccess, authsignal, isDesktop } =
-    useChallengeContext();
+  const { handleSuccess, authsignal, isDesktop } = useChallengeContext();
 
   const submitButtonRef = React.useRef<HTMLButtonElement>(null);
 
@@ -61,7 +60,7 @@ export function AuthenticatorAppChallenge() {
     const token = verifyResponse.data?.token;
 
     if (token) {
-      handleChallengeSuccess({ token });
+      handleSuccess({ token });
     } else {
       setCodeState(OtpInputState.ERROR);
 

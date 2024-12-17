@@ -30,8 +30,7 @@ export function EmailOtpChallenge() {
     OtpInputState.IDLE,
   );
 
-  const { handleChallengeSuccess, user, authsignal, isDesktop } =
-    useChallengeContext();
+  const { handleSuccess, user, authsignal, isDesktop } = useChallengeContext();
 
   const submitButtonRef = React.useRef<HTMLButtonElement>(null);
 
@@ -65,7 +64,7 @@ export function EmailOtpChallenge() {
     const token = verifyResponse.data?.token;
 
     if (token) {
-      handleChallengeSuccess({ token: token });
+      handleSuccess({ token: token });
     } else {
       setCodeState(OtpInputState.ERROR);
 

@@ -18,39 +18,39 @@ export function VerificationMethods() {
   const TitleComponent = isDesktop ? DialogTitle : Drawer.Title;
 
   return (
-    <div className="as-space-y-4">
-      <TitleComponent className="as-text-center as-text-xl as-font-medium as-text-foreground">
+    <div className="as:space-y-4">
+      <TitleComponent className="as:text-center as:text-xl as:font-medium as:text-foreground">
         Select an authentication method
       </TitleComponent>
-      <ul className="as-space-y-3">
+      <ul className="as:space-y-3">
         <VerificationMethodItem
           verificationMethod={VerificationMethod.PASSKEY}
-          icon={<PasskeyIcon className="as-size-[2rem]" />}
+          icon={<PasskeyIcon className="as:size-[2rem]" />}
           label="Passkey"
         />
         <VerificationMethodItem
           verificationMethod={VerificationMethod.SECURITY_KEY}
-          icon={<SecurityKeyIcon className="as-size-[2rem]" />}
+          icon={<SecurityKeyIcon className="as:size-[2rem]" />}
           label="Security key"
         />
         <VerificationMethodItem
           verificationMethod={VerificationMethod.AUTHENTICATOR_APP}
-          icon={<AuthenticatorAppIcon className="as-size-[2rem]" />}
+          icon={<AuthenticatorAppIcon className="as:size-[2rem]" />}
           label="Authenticator app"
         />
         <VerificationMethodItem
           verificationMethod={VerificationMethod.EMAIL_OTP}
-          icon={<EmailOtpIcon className="as-size-[2rem]" />}
+          icon={<EmailOtpIcon className="as:size-[2rem]" />}
           label="Email OTP"
         />
         <VerificationMethodItem
           verificationMethod={VerificationMethod.EMAIL_MAGIC_LINK}
-          icon={<EmailMagicLinkIcon className="as-size-[2rem]" />}
+          icon={<EmailMagicLinkIcon className="as:size-[2rem]" />}
           label="Email magic link"
         />
         <VerificationMethodItem
           verificationMethod={VerificationMethod.SMS}
-          icon={<SmsOtpIcon className="as-size-[2rem]" />}
+          icon={<SmsOtpIcon className="as:size-[2rem]" />}
           label="Text message"
         />
       </ul>
@@ -86,15 +86,15 @@ function VerificationMethodItem({
   return (
     <li>
       <button
-        className="as-flex as-w-full as-items-center as-rounded as-border as-p-2 as-text-foreground as-shadow"
+        className="as:flex as:w-full as:items-center as:rounded as:border as:p-2 as:text-foreground as:shadow"
         onClick={() => setVerificationMethod(verificationMethod)}
         type="button"
       >
-        <div className="as-flex as-items-center as-space-x-2">
+        <div className="as:flex as:items-center as:space-x-2">
           {icon}
-          <span className="as-text-sm as-font-medium ">{label}</span>
+          <span className="as:text-sm as:font-medium ">{label}</span>
         </div>
-        <ChevronRightIcon className="as-ml-auto as-size-4" />
+        <ChevronRightIcon className="as:ml-auto as:size-4" />
       </button>
     </li>
   );

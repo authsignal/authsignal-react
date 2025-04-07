@@ -74,9 +74,6 @@ const config = {
       }),
     }),
   ],
-  corePlugins: {
-    preflight: false,
-  },
 } satisfies Config;
 
 export default config;

@@ -103,7 +103,7 @@ export function Challenge({
   };
 
   const content = (
-    <div className="as-pt-8 as-text-center">
+    <div className="as:pt-8 as:text-center">
       {!verificationMethod && <VerificationMethods />}
 
       {verificationMethod === VerificationMethod.PASSKEY && (
@@ -150,7 +150,7 @@ export function Challenge({
         <Dialog open={open} onOpenChange={handleOpenChange}>
           <DialogContent
             container={container}
-            className="as-pb-10 sm:as-max-w-[425px]"
+            className="as:pb-10 as:max-w-[425px]"
             aria-describedby={undefined}
           >
             {content}
@@ -159,12 +159,12 @@ export function Challenge({
       ) : (
         <Drawer.Root open={open} onOpenChange={handleOpenChange}>
           <Drawer.Portal container={container}>
-            <Drawer.Overlay className="as-fixed as-inset-0 as-z-50 as-bg-black/80" />
+            <Drawer.Overlay className="as:fixed as:inset-0 as:z-50 as:bg-black/80" />
             <Drawer.Content
               aria-describedby={undefined}
-              className="as-fixed as-inset-x-0 as-bottom-0 as-z-50 as-mt-24 as-flex as-h-auto as-flex-col as-rounded-t-[10px] as-bg-background as-px-4 as-pb-8"
+              className="as:fixed as:inset-x-0 as:bottom-0 as:z-50 as:mt-24 as:flex as:h-auto as:flex-col as:rounded-t-[10px] as:bg-background as:px-4 as:pb-8"
             >
-              <div className="as-mx-auto as-mt-4 as-h-2 as-w-[100px] as-rounded-full as-bg-muted" />
+              <div className="as:mx-auto as:mt-4 as:h-2 as:w-[100px] as:rounded-full as:bg-muted" />
               {content}
             </Drawer.Content>
           </Drawer.Portal>
@@ -180,27 +180,27 @@ const verificationMethodConfig: Record<
   { icon: JSX.Element; label: string }
 > = {
   [VerificationMethod.PASSKEY]: {
-    icon: <PasskeyIcon className="as-size-6" />,
+    icon: <PasskeyIcon className="as:size-6" />,
     label: "a passkey",
   },
   [VerificationMethod.EMAIL_OTP]: {
-    icon: <EmailOtpIcon className="as-size-6" />,
+    icon: <EmailOtpIcon className="as:size-6" />,
     label: "an email OTP",
   },
   [VerificationMethod.EMAIL_MAGIC_LINK]: {
-    icon: <EmailMagicLinkIcon className="as-size-6" />,
+    icon: <EmailMagicLinkIcon className="as:size-6" />,
     label: "an email magic link",
   },
   [VerificationMethod.AUTHENTICATOR_APP]: {
-    icon: <AuthenticatorAppIcon className="as-size-6" />,
+    icon: <AuthenticatorAppIcon className="as:size-6" />,
     label: "an authenticator app",
   },
   [VerificationMethod.SMS]: {
-    icon: <SmsOtpIcon className="as-size-6" />,
+    icon: <SmsOtpIcon className="as:size-6" />,
     label: "a text message",
   },
   [VerificationMethod.SECURITY_KEY]: {
-    icon: <SecurityKeyIcon className="as-size-6" />,
+    icon: <SecurityKeyIcon className="as:size-6" />,
     label: "a security key",
   },
 };
@@ -215,7 +215,7 @@ function AuthChallengeFooter() {
   ) {
     return (
       <button
-        className="as-mt-6 as-text-sm as-font-medium as-text-[#5865D6]"
+        className="as:mt-6 as:text-sm as:font-medium as:text-[#5865D6]"
         onClick={() => setVerificationMethod(undefined)}
         type="button"
       >
@@ -233,7 +233,7 @@ function AuthChallengeFooter() {
 
     return (
       <button
-        className="as-mt-6 as-inline-flex as-items-center as-space-x-1 as-text-sm as-font-medium as-text-[#5865D6]"
+        className="as:mt-6 as:inline-flex as:items-center as:space-x-1 as:text-sm as:font-medium as:text-[#5865D6]"
         onClick={() => setVerificationMethod(otherMethod)}
         type="button"
       >

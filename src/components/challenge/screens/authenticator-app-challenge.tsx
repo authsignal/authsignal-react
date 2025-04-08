@@ -80,12 +80,12 @@ export function AuthenticatorAppChallenge() {
   const TitleComponent = isDesktop ? DialogTitle : Drawer.Title;
 
   return (
-    <div className="as-flex as-flex-col as-space-y-6">
-      <div className="as-space-y-2">
-        <TitleComponent className="as-text-center as-text-xl as-font-medium as-text-foreground">
+    <div className="as:flex as:flex-col as:space-y-6">
+      <div className="as:space-y-2">
+        <TitleComponent className="as:text-center as:text-xl as:font-medium as:text-foreground">
           Confirm it&apos;s you
         </TitleComponent>
-        <p className="as-text-center as-text-sm as-text-foreground">
+        <p className="as:text-center as:text-sm as:text-foreground">
           Enter the code from your authenticator app to proceed.
         </p>
       </div>
@@ -93,15 +93,15 @@ export function AuthenticatorAppChallenge() {
         <form
           noValidate
           onSubmit={onSubmit}
-          className="as-flex as-w-full as-flex-col as-space-y-3"
+          className="as:flex as:w-full as:flex-col as:space-y-3"
         >
           <FormField
             control={form.control}
             name="code"
             rules={{ required: "Enter a code" }}
             render={({ field }) => (
-              <FormItem className="as-mx-auto">
-                <FormLabel className="as-sr-only">Code</FormLabel>
+              <FormItem className="as:mx-auto">
+                <FormLabel className="as:sr-only">Code</FormLabel>
                 <FormControl>
                   <InputOTP
                     disabled={codeState === OtpInputState.LOADING}
@@ -110,55 +110,55 @@ export function AuthenticatorAppChallenge() {
                   >
                     <InputOTPGroup
                       className={cn(
-                        codeState === OtpInputState.ERROR && "as-animate-shake",
+                        codeState === OtpInputState.ERROR && "as:animate-shake",
                       )}
                     >
                       <InputOTPSlot
                         className={cn(
                           codeState === OtpInputState.ERROR &&
-                            "as-border-red-600",
+                            "as:border-red-600",
                         )}
                         index={0}
                       />
                       <InputOTPSlot
                         className={cn(
                           codeState === OtpInputState.ERROR &&
-                            "as-border-red-600",
+                            "as:border-red-600",
                         )}
                         index={1}
                       />
                       <InputOTPSlot
                         className={cn(
                           codeState === OtpInputState.ERROR &&
-                            "as-border-red-600",
+                            "as:border-red-600",
                         )}
                         index={2}
                       />
                       <InputOTPSlot
                         className={cn(
                           codeState === OtpInputState.ERROR &&
-                            "as-border-red-600",
+                            "as:border-red-600",
                         )}
                         index={3}
                       />
                       <InputOTPSlot
                         className={cn(
                           codeState === OtpInputState.ERROR &&
-                            "as-border-red-600",
+                            "as:border-red-600",
                         )}
                         index={4}
                       />
                       <InputOTPSlot
                         className={cn(
                           codeState === OtpInputState.ERROR &&
-                            "as-border-red-600",
+                            "as:border-red-600",
                         )}
                         index={5}
                       />
                     </InputOTPGroup>
                   </InputOTP>
                 </FormControl>
-                <FormMessage className="as-sr-only" />
+                <FormMessage className="as:sr-only" />
               </FormItem>
             )}
           />

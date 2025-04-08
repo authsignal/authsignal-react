@@ -86,7 +86,7 @@ function VerificationMethodItem({
   return (
     <li>
       <button
-        className="as:flex as:w-full as:items-center as:rounded as:border as:p-2 as:text-foreground as:shadow"
+        className="as:flex as:w-full as:items-center as:rounded as:border as:p-2 as:text-foreground as:shadow-sm"
         onClick={() => setVerificationMethod(verificationMethod)}
         type="button"
       >

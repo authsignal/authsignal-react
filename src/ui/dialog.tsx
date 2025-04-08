@@ -38,7 +38,7 @@ const DialogContent = React.forwardRef<
     <DialogPrimitive.Content
       ref={ref}
       className={cn(
-        "as:fixed as:left-1/2 as:top-1/2 as:z-50 as:grid as:w-full as:max-w-lg as:-translate-x-1/2 as:-translate-y-1/2 as:gap-4 as:bg-background as:p-6 as:shadow-lg as:duration-200 as:data-[state=open]:animate-in as:data-[state=closed]:animate-out as:data-[state=closed]:fade-out-0 as:data-[state=open]:fade-in-0 as:data-[state=closed]:zoom-out-95 as:data-[state=open]:zoom-in-95 as:data-[state=closed]:slide-out-to-left-1/2 as:data-[state=closed]:slide-out-to-top-[48%] as:data-[state=open]:slide-in-from-left-1/2 as:data-[state=open]:slide-in-from-top-[48%] as:sm:rounded-lg",
+        "as:fixed as:left-1/2 as:top-1/2 as:z-50 as:grid as:w-full as:max-w-lg as:-translate-x-1/2 as:-translate-y-1/2 as:gap-4 as:bg-background as:p-6 as:shadow-lg as:rounded-lg as:data-[state=open]:animate-in as:data-[state=closed]:animate-out as:data-[state=closed]:fade-out-0 as:data-[state=open]:fade-in-0 as:data-[state=closed]:zoom-out-95 as:data-[state=open]:zoom-in-95",
         className,
       )}
       {...props}
@@ -59,7 +59,7 @@ const DialogHeader = ({
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
-      "as:flex as:flex-col as:space-y-1.5 as:text-center as:sm:text-left",
+      "as:flex as:flex-col as:space-y-1.5 as:text-left",
       className,
     )}
     {...props}
@@ -73,7 +73,7 @@ const DialogFooter = ({
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
-      "as:flex as:flex-col-reverse as:sm:flex-row as:sm:justify-end as:sm:space-x-2",
+      "as:flex as:flex-row as:justify-end as:space-x-2",
       className,
     )}
     {...props}

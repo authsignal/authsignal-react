@@ -1,6 +1,10 @@
-@import 'tailwindcss' prefix(as);
+@import "tw-animate-css";
 
-@theme {
+@layer theme {
+  @import "tailwindcss/theme.css" prefix(as);
+}
+
+@theme inline {
   --breakpoint-xs: 375px;
 
   --radius-lg: var(--as-border-radius);
@@ -19,6 +23,7 @@
   --color-ring: var(--as-color-ring);
 
   --spacing-1: calc(1 * var(--as-spacing-unit, 0.25rem));
+  --spacing-1_5: calc(1.5 * var(--as-spacing-unit, 0.25rem));
   --spacing-2: calc(2 * var(--as-spacing-unit, 0.25rem));
   --spacing-3: calc(3 * var(--as-spacing-unit, 0.25rem));
   --spacing-4: calc(4 * var(--as-spacing-unit, 0.25rem));
@@ -28,10 +33,8 @@
   --spacing-8: calc(8 * var(--as-spacing-unit, 0.25rem));
   --spacing-9: calc(9 * var(--as-spacing-unit, 0.25rem));
   --spacing-10: calc(10 * var(--as-spacing-unit, 0.25rem));
-  --spacing-1_5: calc(1.5 * var(--as-spacing-unit, 0.25rem));
 
   --animate-shake: shake 0.15s ease-in-out 0s 2;
-  --animate-caret-blink: caret-blink 1.25s ease-out infinite;
 
   @keyframes shake {
     25% {
@@ -41,33 +44,32 @@
       transform: translate3d(-3px, 0, 0);
     }
   }
-  @keyframes caret-blink {
-    0%,
-    70%,
-    100% {
-      opacity: 1;
-    }
-    20%,
-    50% {
-      opacity: 0;
+}
+
+@layer base {
+  .authsignal {
+    @import "tailwindcss/preflight.css";
+
+    /*
+      The default border color has changed to `currentcolor` in Tailwind CSS v4,
+      so we've added these compatibility styles to make sure everything still
+      looks the same as it did with Tailwind CSS v3.
+
+      If we ever want to remove these styles, we need to add an explicit border
+      color utility to any element that depends on these defaults.
+    */
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+      border-color: var(--as-color-gray-200, currentcolor);
     }
   }
 }
 
-/*
-  The default border color has changed to `currentcolor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
+@layer components;
 
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
-@layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentcolor);
-  }
+@layer utilities {
+  @import "tailwindcss/utilities.css" prefix(as);
 }

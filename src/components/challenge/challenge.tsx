@@ -150,7 +150,7 @@ export function Challenge({
         <Dialog open={open} onOpenChange={handleOpenChange}>
           <DialogContent
             container={container}
-            className="as:pb-10 as:sm:max-w-[425px]"
+            className="as:pb-10 as:max-w-[425px]"
             aria-describedby={undefined}
           >
             {content}
